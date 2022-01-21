@@ -1,0 +1,113 @@
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#      - id: test_route
+#        uri: https://www.baidu.com
+#        predicates:
+#        - Query=url,baidu
+#
+#      - id: qq_route
+#        uri: https://www.qq.com
+#        predicates:
+#        - Query=url,qq
+
+spring:
+  cloud:
+    gateway:
+      routes:
+#        - id: query_route
+#          uri: https://www.baidu.com
+#          predicates:
+#            - Query=url,baidu
+#
+#
+#        - id: qq_route
+#          uri: https://www.qq.com
+#          predicates:
+#            - Query=url,qq
+
+
+        - id: product_route
+          uri: lb://gulimall-product
+          predicates:
+            - Path=/api/product/**,/hello
+          filters:
+            - RewritePath=/api(?<segment>/?.*),/$\{segment}
+
+        - id: coupon_route
+          uri: lb://gulimall-coupon
+          predicates:
+          - Path=/api/coupon/**
+          filters:
+          - RewritePath=/api(?<segment>/?.*),/$\{segment}
+
+
+        - id: third_party_route
+          uri: lb://gulimall-third-party
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>/?.*),/$\{segment}
+
+        - id: member_route
+          uri: lb://gulimall-member
+          predicates:
+          - Path=/api/member/**
+          filters:
+          - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+
+
+        - id: ware_route
+          uri: lb://gulimall-ware
+          predicates:
+          - Path=/api/ware/**
+          filters:
+          - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api(?<segment>/?.*),/renren-fast/$\{segment}
+
+
+        - id: gulimall_host_route
+          uri: lb://gulimall-product
+          predicates:
+            - Host=gulimall.com,item.gulimall.com
+
+        - id: search_gulimall_host_route
+          uri: lb://gulimall-search
+          predicates:
+          - Host=search.gulimall.com
+
+        - id: auth_gulimall_host_route
+          uri: lb://gulimall-auth-server
+          predicates:
+          - Host=auth.gulimall.com
+
+        - id: cart_gulimall_host_route
+          uri: lb://gulimall-cart
+          predicates:
+          - Host=cart.gulimall.com
+
+        - id: order_gulimall_host_route
+          uri: lb://gulimall-order
+          predicates:
+          - Host=order.gulimall.com
+
+        - id: member_gulimall_host_route
+          uri: lb://gulimall-member
+          predicates:
+          - Host=member.gulimall.com
+
+        - id: seckill_gulimall_host_route
+          uri: lb://gulimall-seckill
+          predicates:
+          - Host=seckill.gulimall.com
+
+#前段项目，/api
+#http://localhost:88/api/captcha.jpg --> http://renren-fast:8080/api/captcha.jpgc-->http://localhost:8080/renren-fast/captcha.jpg
+##http://localhost:88/api/product/category/list/tree  --> http://localhost:10001/product/category/list/tree

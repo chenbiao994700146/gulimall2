@@ -60,7 +60,7 @@ public class test01 {
 
         //查询
         String hello=ops.get("hello");
-        System.out.println("值为："+hello);
+        System.out.println("值为sss："+hello);
     }
 
 

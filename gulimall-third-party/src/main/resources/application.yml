@@ -1,0 +1,28 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+  application:
+    name: gulimall-third-party
+  alicloud:
+    sms:
+      host: https://dfsns.market.alicloudapi.com
+      path: /data/send_sms
+      appcode: 1b13faadb41e4d72a387a990e272ce11
+      template-id: TPL_0000
+
+
+
+server:
+  port: 11000
+
+
+alibaba:
+  cloud:
+    access-key: LTAI5tCzDzR8LEpYVXBvZTAj
+    secret-key: D8jGlxKBeEm71NGw4543PDnVNDzo7J
+    oss:
+      endpoint: oss-cn-shanghai.aliyuncs.com
+      bucket: gulimallcb

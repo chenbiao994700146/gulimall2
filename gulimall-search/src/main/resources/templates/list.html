@@ -64,7 +64,8 @@
         </b>
         <ul>
             <li>
-                <a th:if="${session.loginUser == null}" href="http://auth.gulimall.com/login.html" class="li_2">你好，11请登录</a>
+                <a th:if="${session.loginUser == null}" href="http://auth.gulimall.com/login.html"
+                   class="li_2">你好，11请登录</a>
                 <a th:if="${session.loginUser != null}">欢迎, [[${session.loginUser.nickname}]]</a>
             </li>
             <li>
@@ -403,7 +404,7 @@
         <a href="http://gulimall.com"><img src="/static/search/image/logo1.jpg" alt=""></a>
     </div>
     <div class="header_form">
-        <input  id="keyword_input" type="text" placeholder="手机" th:value="${param.keyword}"/>
+        <input id="keyword_input" type="text" placeholder="手机" th:value="${param.keyword}"/>
         <a href="javascript:searchKeyword()">搜索</a>
     </div>
     <div class="header_ico">
@@ -784,14 +785,15 @@
             <div class="JD_nav_logo">
                 <!--品牌-->
                 <div class="JD_nav_wrap">
-                    <div  class="sl_key">
+                    <div class="sl_key">
                         <span>品牌：</span>
                     </div>
                     <div class="sl_value">
                         <div class="sl_value_logo">
                             <ul th:each="brand:${result.brands}">
                                 <li>
-                                    <a href="#" th:href="${'javascript:searchProducts(&quot;brandId&quot;,'+brand.brandId+')'}">
+                                    <a href="#"
+                                       th:href="${'javascript:searchProducts(&quot;brandId&quot;,'+brand.brandId+')'}">
                                         <img th:src="${brand.brandImg}" alt="">
                                         <div th:text="${brand.getBrandName()}">
 
@@ -823,7 +825,9 @@
                     <div class="sl_value">
 
                         <ul>
-                            <li th:each="catalog :${result.catalogs}"><a href="#" th:href="${'javascript:searchProducts(&quot;catalog3Id&quot;,'+catalog.catalogId+')'}" th:text="${catalog.catalogName}">5.56英寸及以上</a>
+                            <li th:each="catalog :${result.catalogs}"><a href="#"
+                                                                         th:href="${'javascript:searchProducts(&quot;catalog3Id&quot;,'+catalog.catalogId+')'}"
+                                                                         th:text="${catalog.catalogName}">5.56英寸及以上</a>
                             </li>
 
                         </ul>
@@ -849,7 +853,9 @@
                     </div>
                     <div class="sl_value">
                         <ul>
-                            <li th:each="value :${attr.attrValue}"><a href="#" th:href="${'javascript:searchProducts(&quot;attrs&quot;,&quot;'+attr.attrId+'_'+value+'&quot;)'}" th:text="${value}">5.56英寸及以上</a></li>
+                            <li th:each="value :${attr.attrValue}"><a href="#"
+                                                                      th:href="${'javascript:searchProducts(&quot;attrs&quot;,&quot;'+attr.attrId+'_'+value+'&quot;)'}"
+                                                                      th:text="${value}">5.56英寸及以上</a></li>
 
                         </ul>
                     </div>
@@ -1177,7 +1183,8 @@
                                 </li>
                                 <li>
                                     <a th:with="check = ${param.hasStock}">
-                                        <input id="showHasStock" type="checkbox" th:checked="${#strings.equals(check,'1')?true:false}">
+                                        <input id="showHasStock" type="checkbox"
+                                               th:checked="${#strings.equals(check,'1')?true:false}">
                                         仅显示有货
                                     </a>
                                 </li>
@@ -1243,13 +1250,16 @@
                     <div class="filter_page">
                         <div class="page_wrap">
                             <span class="page_span1">
-                                <a class="page_a"  th:attr="pn=${result.pageNum - 1}" th:if="${result.pageNum>1}">
+                                <a class="page_a" th:attr="pn=${result.pageNum - 1}" th:if="${result.pageNum>1}">
                                     < 上一页
                                 </a>
 
-                                <a class="page_a"  th:attr="pn=${nav},style=${nav==result.pageNum?'border: 0;color:#ee2222;background: #fff':''}" th:each="nav:${result.pageNavs}" >[[${nav}]]</a>
+                                <a class="page_a"
+                                   th:attr="pn=${nav},style=${nav==result.pageNum?'border: 0;color:#ee2222;background: #fff':''}"
+                                   th:each="nav:${result.pageNavs}">[[${nav}]]</a>
 
-                                <a class="page_a"  th:attr="pn=${result.pageNum + 1}" th:if="${result.pageNum<result.totalPages}">
+                                <a class="page_a" th:attr="pn=${result.pageNum + 1}"
+                                   th:if="${result.pageNum<result.totalPages}">
                                     下一页 >
                                 </a>
                             </span>
@@ -2012,23 +2022,23 @@
     }
 
 
-    function  searchKeyword() {
-        searchProducts("keyword",$("#keyword_input").val());
+    function searchKeyword() {
+        searchProducts("keyword", $("#keyword_input").val());
     }
 
     $(".page_a").click(function () {
 
-      var pn=  $(this).attr("pn");
+        var pn = $(this).attr("pn");
 
-      var href=location.href;
+        var href = location.href;
 
-      if(href.indexOf("pageNum")!=-1){
-          location.href=replaceParamVal(href,"pageNum",pn);
-      }else{
-          location.href=location.href+"&pageNum="+pn;
-      }
+        if (href.indexOf("pageNum") != -1) {
+            location.href = replaceParamVal(href, "pageNum", pn);
+        } else {
+            location.href = location.href + "&pageNum=" + pn;
+        }
 
-      return false;
+        return false;
     });
 
     function replaceParamVal(url, paramName, replaceVal, forceAdd) {
@@ -2056,7 +2066,7 @@
     };
     $(".sort_a").click(function () {
         changeStyle(this);
-       // $(this).toggleClass("desc")
+        // $(this).toggleClass("desc")
         let sort = $(this).attr("sort");
         sort = $(this).hasClass("desc") ? sort + "_desc" : sort + "_asc";
         location.href = replaceParamVal(location.href, "sort", sort, true);
@@ -2098,7 +2108,7 @@
 
 
     $("#showHasStock").change(function () {
-       // alert($(this).prop("checked"));
+        // alert($(this).prop("checked"));
         if ($(this).prop("checked")) {
             location.href = replaceParamVal(location.href, "hasStock", 1, true);
         } else {

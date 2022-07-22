@@ -23,10 +23,11 @@ import static com.cb.common.constant.CartConstant.TEMP_USER_COOKIE_TIMEOUT;
  */
 public class CartInterceptor implements HandlerInterceptor {
 
-    public static  ThreadLocal<UserInfoTo> threadLocal = new ThreadLocal<>();
+    public static ThreadLocal<UserInfoTo> threadLocal = new ThreadLocal<>();
 
     /**
      * 在目标方法执行之前
+     *
      * @param request
      * @param response
      * @param handler
@@ -36,20 +37,19 @@ public class CartInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
 
-
         UserInfoTo userInfoTo = new UserInfoTo();
         HttpSession session = request.getSession();
         MemberRespVo member = (MemberRespVo) session.getAttribute(LOGIN_USER);
-        if(member!=null){
+        if (member != null) {
             //用户登录
             userInfoTo.setUserId(member.getId());
         }
 
         Cookie[] cookies = request.getCookies();
-        if(cookies!=null&&cookies.length>0){
-            for(Cookie cookie :cookies){
+        if (cookies != null && cookies.length > 0) {
+            for (Cookie cookie : cookies) {
                 String name = cookie.getName();
-                if(name.equals(TEMP_USER_COOKIE_NAME)){
+                if (name.equals(TEMP_USER_COOKIE_NAME)) {
                     userInfoTo.setUserKey(cookie.getValue());
                     userInfoTo.setTemUser(true);
                 }
@@ -57,7 +57,7 @@ public class CartInterceptor implements HandlerInterceptor {
         }
 
         //如果没有临时用户，一定分配一个临时用户
-        if(StringUtils.isEmpty(userInfoTo.getUserKey())){
+        if (StringUtils.isEmpty(userInfoTo.getUserKey())) {
             String s = UUID.randomUUID().toString();
             userInfoTo.setUserKey(s);
         }
@@ -72,6 +72,7 @@ public class CartInterceptor implements HandlerInterceptor {
 
     /**
      * 业务执行之后
+     *
      * @param request
      * @param response
      * @param handler
@@ -81,8 +82,8 @@ public class CartInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         UserInfoTo userInfoTo = threadLocal.get();
-        if(!userInfoTo.isTemUser()){
-            Cookie cookie = new Cookie(TEMP_USER_COOKIE_NAME,userInfoTo.getUserKey());
+        if (!userInfoTo.isTemUser()) {
+            Cookie cookie = new Cookie(TEMP_USER_COOKIE_NAME, userInfoTo.getUserKey());
             cookie.setDomain("gulimall.com");
             cookie.setMaxAge(TEMP_USER_COOKIE_TIMEOUT);
             response.addCookie(cookie);

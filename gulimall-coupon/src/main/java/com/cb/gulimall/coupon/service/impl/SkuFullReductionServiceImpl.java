@@ -35,6 +35,7 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
 
     @Resource
     MemberPriceService memberPriceService;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SkuFullReductionEntity> page = this.page(
@@ -56,16 +57,15 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
         skuLadderEntity.setDiscount(skuReductionTo.getDiscount());
         skuLadderEntity.setAddOther(skuReductionTo.getCountStatus());
 
-        if(skuReductionTo.getFullCount()>0){
+        if (skuReductionTo.getFullCount() > 0) {
             skuLadderService.save(skuLadderEntity);
         }
 
 
-
         //2.sms_sku_full_reduction
         SkuFullReductionEntity reductionEntity = new SkuFullReductionEntity();
-        BeanUtils.copyProperties(skuReductionTo,reductionEntity);
-        if(reductionEntity.getFullPrice().compareTo(new BigDecimal("0"))==1){
+        BeanUtils.copyProperties(skuReductionTo, reductionEntity);
+        if (reductionEntity.getFullPrice().compareTo(new BigDecimal("0")) == 1) {
             this.save(reductionEntity);
         }
 
@@ -82,8 +82,8 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
             priceEntity.setAddOther(1);
             return priceEntity;
 
-        }).filter(item->{
-           return item.getMemberPrice().compareTo(new BigDecimal("0"))==1;
+        }).filter(item -> {
+            return item.getMemberPrice().compareTo(new BigDecimal("0")) == 1;
         }).collect(Collectors.toList());
         memberPriceService.saveBatch(collect);
     }

@@ -13,7 +13,7 @@ import java.io.IOException;
 @Component
 public class LoginUserInterceptor implements HandlerInterceptor {
 
-   public static  ThreadLocal<MemberRespVo> loginUser=new ThreadLocal<>();
+    public static ThreadLocal<MemberRespVo> loginUser = new ThreadLocal<>();
 
 
     @Override
@@ -23,20 +23,20 @@ public class LoginUserInterceptor implements HandlerInterceptor {
         AntPathMatcher antPathMatcher = new AntPathMatcher();
         boolean match1 = antPathMatcher.match("/kill", uri);
 
-        if(match1){
+        if (match1) {
             MemberRespVo attribute = (MemberRespVo) request.getSession().getAttribute(AuthServerConstant.LOGIN_USER);
-            if(attribute!=null){
+            if (attribute != null) {
                 loginUser.set(attribute);
                 return true;
-            }else{
+            } else {
                 //没登录去登录
-                request.getSession().setAttribute("msg","请先登录");
+                request.getSession().setAttribute("msg", "请先登录");
                 response.sendRedirect("http://auth.gulimall.com/login.html");
                 return false;
             }
         }
 
-      return true;
+        return true;
 
     }
 }

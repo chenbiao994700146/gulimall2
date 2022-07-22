@@ -19,13 +19,14 @@ public class SmsSendController {
 
     /**
      * 提供给别的服务进行调用
+     *
      * @param phone
      * @param code
      * @return
      */
     @GetMapping("/sendCode")
-    public R sendCode(@RequestParam("phone") String phone, @RequestParam("code") String code){
-        smsComponent.sendSmsCode(phone,code);
+    public R sendCode(@RequestParam("phone") String phone, @RequestParam("code") String code) {
+        smsComponent.sendSmsCode(phone, code);
         return R.ok();
     }
 }

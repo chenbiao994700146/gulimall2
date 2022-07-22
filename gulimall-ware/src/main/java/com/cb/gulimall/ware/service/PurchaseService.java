@@ -26,7 +26,6 @@ public interface PurchaseService extends IService<PurchaseEntity> {
     void mergePurchase(MergeVo mergeVo);
 
 
-
     void received(List<Long> ids);
 
 

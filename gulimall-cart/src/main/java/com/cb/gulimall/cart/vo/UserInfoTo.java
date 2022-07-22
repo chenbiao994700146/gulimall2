@@ -9,5 +9,5 @@ public class UserInfoTo {
     private Long userId;
     private String userKey;
 
-    private boolean temUser=false;
+    private boolean temUser = false;
 }

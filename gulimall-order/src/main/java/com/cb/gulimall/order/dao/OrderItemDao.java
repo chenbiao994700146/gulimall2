@@ -6,12 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * ¶©µ¥ÏîÐÅÏ¢
- * 
+ *
  * @author chenbiao
  * @email chenbiao@gmail.com
  * @date 2021-09-23 21:16:15
  */
 @Mapper
 public interface OrderItemDao extends BaseMapper<OrderItemEntity> {
-	
+
 }

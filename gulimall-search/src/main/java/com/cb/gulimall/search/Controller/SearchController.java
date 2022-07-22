@@ -17,12 +17,12 @@ public class SearchController {
     MallSearchService mallSearchService;
 
     @GetMapping("/list.html")
-    public String listPage(SearchParam param, Model model, HttpServletRequest request){
+    public String listPage(SearchParam param, Model model, HttpServletRequest request) {
 
         param.set_queryString(request.getQueryString());
 
-        SearchResult result=  mallSearchService.search(param);
-      model.addAttribute("result",result);
+        SearchResult result = mallSearchService.search(param);
+        model.addAttribute("result", result);
         return "list";
     }
 }

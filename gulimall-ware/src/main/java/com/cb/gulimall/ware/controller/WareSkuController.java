@@ -17,7 +17,6 @@ import com.cb.common.utils.PageUtils;
 import com.cb.common.utils.R;
 
 
-
 /**
  * ÉÌÆ·¿â´æ
  *
@@ -32,23 +31,23 @@ public class WareSkuController {
     private WareSkuService wareSkuService;
 
     @PostMapping("/lock/order")
-    public R orderLockStock(@RequestBody  WareSkuLockVo vo){
+    public R orderLockStock(@RequestBody WareSkuLockVo vo) {
 
 
-       try{
-           Boolean stock= wareSkuService.orderLockStock(vo);
-           return R.ok();
-       }catch (NoStockException e){
-           return R.error(BizCodeEnume.NO_STOCK_EXCEPTION.getCode(),BizCodeEnume.NO_STOCK_EXCEPTION.getMsg());
-       }
+        try {
+            Boolean stock = wareSkuService.orderLockStock(vo);
+            return R.ok();
+        } catch (NoStockException e) {
+            return R.error(BizCodeEnume.NO_STOCK_EXCEPTION.getCode(), BizCodeEnume.NO_STOCK_EXCEPTION.getMsg());
+        }
 
     }
 
     //查询SKU是否有库存
     @PostMapping("/hasstock")
-    public R getSkuHasStock(@RequestBody List<Long> skuIds){
+    public R getSkuHasStock(@RequestBody List<Long> skuIds) {
         //sku_id,stock
-      List<SkuHasStockVo>  vos= wareSkuService.getSkuHasStock(skuIds);
+        List<SkuHasStockVo> vos = wareSkuService.getSkuHasStock(skuIds);
 
 
 //        R<List<SkuHasStockVo>> ok = R.ok();
@@ -61,7 +60,7 @@ public class WareSkuController {
      */
     @RequestMapping("/list")
     //@RequiresPermissions("ware:waresku:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = wareSkuService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -72,9 +71,9 @@ public class WareSkuController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-   // @RequiresPermissions("ware:waresku:info")
-    public R info(@PathVariable("id") Long id){
-		WareSkuEntity wareSku = wareSkuService.getById(id);
+    // @RequiresPermissions("ware:waresku:info")
+    public R info(@PathVariable("id") Long id) {
+        WareSkuEntity wareSku = wareSkuService.getById(id);
 
         return R.ok().put("wareSku", wareSku);
     }
@@ -84,8 +83,8 @@ public class WareSkuController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("ware:waresku:save")
-    public R save(@RequestBody WareSkuEntity wareSku){
-		wareSkuService.save(wareSku);
+    public R save(@RequestBody WareSkuEntity wareSku) {
+        wareSkuService.save(wareSku);
 
         return R.ok();
     }
@@ -95,8 +94,8 @@ public class WareSkuController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("ware:waresku:update")
-    public R update(@RequestBody WareSkuEntity wareSku){
-		wareSkuService.updateById(wareSku);
+    public R update(@RequestBody WareSkuEntity wareSku) {
+        wareSkuService.updateById(wareSku);
 
         return R.ok();
     }
@@ -105,9 +104,9 @@ public class WareSkuController {
      * 删除
      */
     @RequestMapping("/delete")
-   // @RequiresPermissions("ware:waresku:delete")
-    public R delete(@RequestBody Long[] ids){
-		wareSkuService.removeByIds(Arrays.asList(ids));
+    // @RequiresPermissions("ware:waresku:delete")
+    public R delete(@RequestBody Long[] ids) {
+        wareSkuService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

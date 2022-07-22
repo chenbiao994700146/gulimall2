@@ -14,12 +14,12 @@ import java.util.List;
 public interface WmsFeignService {
 
     @PostMapping("/ware/waresku/hasstock")
-     R getSkuHasStock(@RequestBody List<Long> skuIds);
+    R getSkuHasStock(@RequestBody List<Long> skuIds);
 
     @GetMapping("/ware/wareinfo/fare")
-     R getFare(@RequestParam("addrId") Long addrId);
+    R getFare(@RequestParam("addrId") Long addrId);
 
 
     @PostMapping("/ware/waresku/lock/order")
-     R orderLockStock(@RequestBody WareSkuLockVo vo);
+    R orderLockStock(@RequestBody WareSkuLockVo vo);
 }

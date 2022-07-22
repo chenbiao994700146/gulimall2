@@ -6,12 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * ¿â´æ¹¤×÷µ¥
- * 
+ *
  * @author chenbiao
  * @email chenbiao@gmail.com
  * @date 2021-09-23 21:24:10
  */
 @Mapper
 public interface WareOrderTaskDao extends BaseMapper<WareOrderTaskEntity> {
-	
+
 }

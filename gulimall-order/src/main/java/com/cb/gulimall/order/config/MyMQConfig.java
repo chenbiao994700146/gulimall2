@@ -19,79 +19,81 @@ public class MyMQConfig {
 
     /**
      * 容器中的Binding,Queue,Exchange 都会自动创建（RabbitMQ没有的情况下）
+     *
      * @return
      */
     @Bean
-    public Queue orderDelayQueue(){
+    public Queue orderDelayQueue() {
 
-        Map<String, Object> arguments=new HashMap<>();
+        Map<String, Object> arguments = new HashMap<>();
         /**
          * x-dead-letter-exchange: order-event-exchange
          * x-dead-letter-routing-key: order.release.order
          * x-message-ttl: 60000
          */
-        arguments.put("x-dead-letter-exchange","order-event-exchange");
-        arguments.put("x-dead-letter-routing-key","order.release.order");
-        arguments.put("x-message-ttl",60000);
+        arguments.put("x-dead-letter-exchange", "order-event-exchange");
+        arguments.put("x-dead-letter-routing-key", "order.release.order");
+        arguments.put("x-message-ttl", 60000);
         //String name, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
-        Queue queue = new Queue("order.delay.queue",true,false,false,arguments);
+        Queue queue = new Queue("order.delay.queue", true, false, false, arguments);
         return queue;
     }
 
     @Bean
-    public Queue orderReleaseOrderQueue(){
-        Queue queue = new Queue("order.release.order.queue",true,false,false);
+    public Queue orderReleaseOrderQueue() {
+        Queue queue = new Queue("order.release.order.queue", true, false, false);
         return queue;
     }
 
 
     @Bean
-    public Exchange orderEventExchange(){
+    public Exchange orderEventExchange() {
         //String name, boolean durable, boolean autoDelete, Map<String, Object> arguments
-        return new TopicExchange("order-event-exchange",true,false);
+        return new TopicExchange("order-event-exchange", true, false);
     }
 
     @Bean
-    public Binding orderCreateOrderBinding(){
+    public Binding orderCreateOrderBinding() {
 
         //String destination, DestinationType destinationType, String exchange, String routingKey,
         //			Map<String, Object> arguments
         return new Binding("order.delay.queue",
                 Binding.DestinationType.QUEUE,
                 "order-event-exchange",
-                "order.create.order",null);
+                "order.create.order", null);
     }
 
 
     @Bean
-    public Binding orderReleaseOrderBinding(){
+    public Binding orderReleaseOrderBinding() {
         return new Binding("order.release.order.queue",
                 Binding.DestinationType.QUEUE,
                 "order-event-exchange",
-                "order.release.order",null);
+                "order.release.order", null);
     }
 
 
     /**
      * 订单释放直接和库存释放进行绑定
+     *
      * @return
      */
     @Bean
-    public Binding orderReleaseOtherBinding(){
+    public Binding orderReleaseOtherBinding() {
         return new Binding("stock.release.stock.queue",
                 Binding.DestinationType.QUEUE,
                 "order-event-exchange",
-                "order.release.other.#",null);
+                "order.release.other.#", null);
     }
 
     @Bean
-    public Queue orderSeckillOrderQueue(){
+    public Queue orderSeckillOrderQueue() {
         //String name, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
-        return new Queue("order.seckill.order.queue",true,false,false);
+        return new Queue("order.seckill.order.queue", true, false, false);
     }
 
     @Bean
-    public Binding orderSeckillOrderQueueBinding(){
+    public Binding orderSeckillOrderQueueBinding() {
         /**
          * String destination, DestinationType destinationType, String exchange, String routingKey,
          * 			Map<String, Object> arguments

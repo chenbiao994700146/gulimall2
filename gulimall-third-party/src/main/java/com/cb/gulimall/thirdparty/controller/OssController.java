@@ -43,9 +43,9 @@ public class OssController {
         //  String callbackUrl = "http://88.88.88.88:8888";
 
         String format = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        String dir = format+"/"; // 用户上传文件时指定的前缀。
+        String dir = format + "/"; // 用户上传文件时指定的前缀。
 
-        Map<String, String> respMap =null;
+        Map<String, String> respMap = null;
         try {
             long expireTime = 30;
             long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
@@ -76,6 +76,6 @@ public class OssController {
         } finally {
             ossClient.shutdown();
         }
-        return  R.ok().put("data",respMap);
+        return R.ok().put("data", respMap);
     }
 }

@@ -29,12 +29,14 @@ public class CartController {
 
     @GetMapping("/currentUserCartItems")
     @ResponseBody
-    public List<CartItemVo> getCurrentuserCartItems(){
+    public List<CartItemVo> getCurrentuserCartItems() {
         return cartService.getUserCartItems();
-    };
+    }
+
+    ;
 
     @GetMapping("/deleteItem")
-    public String deleteItem(@RequestParam("skuId")Long skuId){
+    public String deleteItem(@RequestParam("skuId") Long skuId) {
 
         cartService.deleteItem(skuId);
         return "redirect:http://cart.gulimall.com/cart.html";
@@ -42,26 +44,27 @@ public class CartController {
 
 
     @GetMapping("/countItem")
-    public String countItem(@RequestParam("skuId")Long skuId,
-                            @RequestParam("num") Integer num){
-        cartService.changeItemCount(skuId,num);
+    public String countItem(@RequestParam("skuId") Long skuId,
+                            @RequestParam("num") Integer num) {
+        cartService.changeItemCount(skuId, num);
         return "redirect:http://cart.gulimall.com/cart.html";
     }
 
     @GetMapping("/checkItem")
     public String checkItem(@RequestParam("skuId") Long skuId,
-                            @RequestParam("check") Integer check){
+                            @RequestParam("check") Integer check) {
 
-        cartService.checkItem(skuId,check);
+        cartService.checkItem(skuId, check);
 
         return "redirect:http://cart.gulimall.com/cart.html";
     }
+
     /**
      * 浏览器有一个cookid:user-key;标识用户身份，一个月后过期
      * 如果第一次使用购物车，都会给一个临时的用户身份
      * 浏览器以后保存，每次访问都会带上这个cookie
-     *
-     *
+     * <p>
+     * <p>
      * 登录：session有
      * 没登录：安装cookie里面带来的user-key做做
      * 第一次：如果没有临时用户，帮忙创建一个临时用户
@@ -72,17 +75,18 @@ public class CartController {
     @GetMapping("/cart.html")
     public String carListPage(Model model) throws ExecutionException, InterruptedException {
 
-      //1、快速得到用户信息，id,user-key
-      //  UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
-      //  System.out.println(userInfoTo);
+        //1、快速得到用户信息，id,user-key
+        //  UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
+        //  System.out.println(userInfoTo);
 
-     CartVo cart=cartService.getCart();
-     model.addAttribute("cart",cart);
+        CartVo cart = cartService.getCart();
+        model.addAttribute("cart", cart);
         return "cartList";
     }
 
     /**
      * 添加成功到商品
+     *
      * @return
      */
     @GetMapping("/addToCart")
@@ -91,19 +95,19 @@ public class CartController {
                             RedirectAttributes model) throws ExecutionException, InterruptedException {
 
 
-       cartService.addToCart(skuId,num);
+        cartService.addToCart(skuId, num);
 
-      model.addAttribute("skuId",skuId);
+        model.addAttribute("skuId", skuId);
         return "redirect:http://cart.gulimall.com/addToCartSuccess.html";
     }
 
     @GetMapping("/addToCartSuccess.html")
-    public String addToCartSuccessPage(@RequestParam("skuId") Long skuId,Model model){
+    public String addToCartSuccessPage(@RequestParam("skuId") Long skuId, Model model) {
 
-       CartItemVo itemVo= cartService.getCartItem(skuId);
+        CartItemVo itemVo = cartService.getCartItem(skuId);
 
 
-       model.addAttribute("cartItem",itemVo);
+        model.addAttribute("cartItem", itemVo);
         return "success";
     }
 }

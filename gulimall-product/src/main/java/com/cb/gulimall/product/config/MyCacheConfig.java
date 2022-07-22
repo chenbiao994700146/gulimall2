@@ -22,24 +22,22 @@ public class MyCacheConfig {
     CacheProperties cacheProperties;
 
     /**
+     * @return
      * @ConfigurationProperties(prefix = "spring.cache")
      * public class CacheProperties {
-     *
+     * <p>
      * 原来是这样的配置绑定
      * 现在需要
-     *@EnableConfigurationProperties(CacheProperties.class)
-     *
-     *
-     * @return
+     * @EnableConfigurationProperties(CacheProperties.class)
      */
 
 
     @Bean
-    public RedisCacheConfiguration redisCacheConfiguration(){
+    public RedisCacheConfiguration redisCacheConfiguration() {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
         //RedisCacheConfiguration ttl = redis.entryTtl();
-        config=  config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
-        config=  config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+        config = config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
+        config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
         //将配置文件中的所有配置都在此处配置
 
 

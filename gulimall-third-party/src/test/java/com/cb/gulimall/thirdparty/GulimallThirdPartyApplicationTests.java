@@ -1,6 +1,7 @@
 package com.cb.gulimall.thirdparty;
 
 //import org.junit.jupiter.api.Test;
+
 import com.aliyun.oss.OSS;
 import com.cb.gulimall.thirdparty.component.SmsComponent;
 import com.cb.gulimall.thirdparty.util.HttpUtils;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class GulimallThirdPartyApplicationTests {
 
     @Test
-  public  void contextLoads() {
+    public void contextLoads() {
     }
 
     @Resource
@@ -32,12 +33,12 @@ public class GulimallThirdPartyApplicationTests {
     SmsComponent smsComponent;
 
     @Test
-    public void cbSms(){
-        smsComponent.sendSmsCode("15973293443","520");
+    public void cbSms() {
+        smsComponent.sendSmsCode("15973293443", "520");
     }
 
     @Test
-    public void sendSms(){
+    public void sendSms() {
         String host = "https://dfsns.market.alicloudapi.com";
         String path = "/data/send_sms";
         String method = "POST";

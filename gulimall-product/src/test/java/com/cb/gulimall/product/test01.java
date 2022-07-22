@@ -38,34 +38,34 @@ public class test01 {
     AttrGroupDao attrGroupDao;
 
     @Test
-    public void test(){
+    public void test() {
         List<SpuItemAttrGroupVo> attrGroupWithAttrsBySpuId = attrGroupDao.getAttrGroupWithAttrsBySpuId(6L, 225L);
         System.out.println(attrGroupWithAttrsBySpuId);
     }
 
 
     @Test
-    public void testFindPath(){
+    public void testFindPath() {
         Long[] catelogPath = categoryService.findCatelogPath(225L);
         //System.out.println();
         log.info("完整路径：{}", Arrays.asList(catelogPath));
     }
 
     @Test
-    public void testRedis(){
-       //hello  world
+    public void testRedis() {
+        //hello  world
         ValueOperations<String, String> ops = stringRedisTemplate.opsForValue();
         //保存
-        ops.set("hello","world"+ UUID.randomUUID().toString());
+        ops.set("hello", "world" + UUID.randomUUID().toString());
 
         //查询
-        String hello=ops.get("hello");
-        System.out.println("值为sss："+hello);
+        String hello = ops.get("hello");
+        System.out.println("值为sss：" + hello);
     }
 
 
     @Test
-    public void testRedisson(){
+    public void testRedisson() {
         System.out.println(redissonClient);
     }
 }

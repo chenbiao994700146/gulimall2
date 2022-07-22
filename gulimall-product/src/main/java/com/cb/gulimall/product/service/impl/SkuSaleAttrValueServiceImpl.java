@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -32,7 +33,7 @@ public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueDao
     @Override
     public List<SkuItemSaleAttrCo> getSaleAttrsBySpuId(Long spuId) {
         SkuSaleAttrValueDao baseMapper = this.baseMapper;
-        List<SkuItemSaleAttrCo>  attrCos=  baseMapper.getSaleAttrsBySpuId(spuId);
+        List<SkuItemSaleAttrCo> attrCos = baseMapper.getSaleAttrsBySpuId(spuId);
         return attrCos;
     }
 

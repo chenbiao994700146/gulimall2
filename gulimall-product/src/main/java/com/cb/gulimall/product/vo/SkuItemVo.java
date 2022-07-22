@@ -15,7 +15,7 @@ public class SkuItemVo {
     //1、获取sku的基本信息获取 pms_sku_info
     SkuInfoEntity info;
 
-    boolean hasStock=true;
+    boolean hasStock = true;
 
     //2、sku的图片信息 pms_sku_images
     List<SkuImagesEntity> images;
@@ -28,7 +28,6 @@ public class SkuItemVo {
 
     //5、获取spu的规格参数信息
     List<SpuItemAttrGroupVo> groupAttrs;
-
 
 
     SeckillInfoVo seckillInfo;//商品的秒杀优惠信息

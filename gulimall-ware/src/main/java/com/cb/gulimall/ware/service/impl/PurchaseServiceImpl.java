@@ -37,6 +37,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
 
     @Resource
     WareSkuService wareSkuService;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<PurchaseEntity> page = this.page(
@@ -51,7 +52,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
     public PageUtils queryPageUnreceive(Map<String, Object> params) {
         IPage<PurchaseEntity> page = this.page(
                 new Query<PurchaseEntity>().getPage(params),
-                new QueryWrapper<PurchaseEntity>().eq("status",0).or().eq("status",1)
+                new QueryWrapper<PurchaseEntity>().eq("status", 0).or().eq("status", 1)
         );
 
         return new PageUtils(page);
@@ -61,7 +62,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
     @Override
     public void mergePurchase(MergeVo mergeVo) {
         Long purchaseId = mergeVo.getPurchaseId();
-        if(purchaseId==null){
+        if (purchaseId == null) {
             //新建一个
             PurchaseEntity purchaseEntity = new PurchaseEntity();
 
@@ -71,7 +72,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             this.save(purchaseEntity);
 
             purchaseId = purchaseEntity.getId();
-        }else{
+        } else {
 
         }
 
@@ -116,7 +117,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             }
 
             return false;
-        }).map(item->{
+        }).map(item -> {
             item.setStatus(WareConstant.PurchaseStatusEnum.RECEIVE.getCode());
             item.setUpdateTime(new Date());
 
@@ -129,8 +130,8 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
 
 
         //3.改变采购项的状态
-        collect.forEach((item)->{
-           List<PurchaseDetailEntity>  entities=  purchaseDetailService.listDetailByPurchaseId(item.getId());
+        collect.forEach((item) -> {
+            List<PurchaseDetailEntity> entities = purchaseDetailService.listDetailByPurchaseId(item.getId());
             List<PurchaseDetailEntity> collect1 = entities.stream().map(entity -> {
                 PurchaseDetailEntity detailEntity = new PurchaseDetailEntity();
 
@@ -152,23 +153,23 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
 
 
         //2.改变采购项的状态
-        Boolean flag=true;
+        Boolean flag = true;
 
         List<PurchaseItemDoneVo> items = doneVo.getItems();
-        List<PurchaseDetailEntity> updates=new ArrayList<>();
+        List<PurchaseDetailEntity> updates = new ArrayList<>();
 
         for (PurchaseItemDoneVo item : items) {
             PurchaseDetailEntity detailEntity = new PurchaseDetailEntity();
 
-            if(item.getStatus() == WareConstant.PurchaseDetailStatusEnum.HASERROR.getCode()){
-                flag=false;
+            if (item.getStatus() == WareConstant.PurchaseDetailStatusEnum.HASERROR.getCode()) {
+                flag = false;
                 detailEntity.setStatus(item.getStatus());
-            }else{
+            } else {
                 detailEntity.setStatus(WareConstant.PurchaseDetailStatusEnum.FINISH.getCode());
 
                 //3.将成功采购的进行入库
                 PurchaseDetailEntity entity = purchaseDetailService.getById(item.getItemId());
-                wareSkuService.addStock(entity.getSkuId(),entity.getWareId(),entity.getSkuNum());
+                wareSkuService.addStock(entity.getSkuId(), entity.getWareId(), entity.getSkuNum());
             }
 
             detailEntity.setId(item.getItemId());
@@ -185,11 +186,9 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
         PurchaseEntity purchaseEntity = new PurchaseEntity();
 
         purchaseEntity.setId(id);
-        purchaseEntity.setStatus(flag? WareConstant.PurchaseStatusEnum.FINISH.getCode(): WareConstant.PurchaseStatusEnum.HASERROR.getCode());
+        purchaseEntity.setStatus(flag ? WareConstant.PurchaseStatusEnum.FINISH.getCode() : WareConstant.PurchaseStatusEnum.HASERROR.getCode());
         purchaseEntity.setUpdateTime(new Date());
         this.updateById(purchaseEntity);
-
-
 
 
     }

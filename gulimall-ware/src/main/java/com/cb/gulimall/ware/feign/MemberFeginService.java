@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface MemberFeginService {
 
     @RequestMapping("/member/memberreceiveaddress/info/{id}")
-    // @RequiresPermissions("member:memberreceiveaddress:info")
-     R info(@PathVariable("id") Long id);
+        // @RequiresPermissions("member:memberreceiveaddress:info")
+    R info(@PathVariable("id") Long id);
 }

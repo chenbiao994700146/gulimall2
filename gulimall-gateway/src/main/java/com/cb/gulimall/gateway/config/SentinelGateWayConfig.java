@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class SentinelGateWayConfig {
 
-    public SentinelGateWayConfig(){
+    public SentinelGateWayConfig() {
         GatewayCallbackManager.setBlockHandler(new BlockRequestHandler() {
             //网关限流了请求，就会调用此回调
             @Override

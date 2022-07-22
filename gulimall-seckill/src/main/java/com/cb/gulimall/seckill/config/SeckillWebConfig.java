@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.annotation.Resource;
 
 @Configuration
-public class SeckillWebConfig  implements WebMvcConfigurer {
+public class SeckillWebConfig implements WebMvcConfigurer {
 
     @Resource
     LoginUserInterceptor loginUserInterceptor;

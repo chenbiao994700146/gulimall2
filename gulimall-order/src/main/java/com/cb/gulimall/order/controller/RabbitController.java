@@ -20,10 +20,10 @@ import java.util.UUID;
 public class RabbitController {
 
     @Resource
-   RabbitTemplate rabbitTemplate;
+    RabbitTemplate rabbitTemplate;
 
     @GetMapping("/sendMq")
-    public String sendMq(@RequestParam(value = "num",defaultValue = "10") Integer num) {
+    public String sendMq(@RequestParam(value = "num", defaultValue = "10") Integer num) {
         for (int i = 0; i < 10; i++) {
 
             if (i % 2 == 0) {
@@ -33,11 +33,11 @@ public class RabbitController {
                 entity.setName("JVAV==>" + i);
                 entity.setSort(1);
                 entity.setStatus(1);
-                rabbitTemplate.convertAndSend("cb-java-exchange", "cb.java", entity,new CorrelationData(UUID.randomUUID().toString()));
+                rabbitTemplate.convertAndSend("cb-java-exchange", "cb.java", entity, new CorrelationData(UUID.randomUUID().toString()));
             } else {
                 OrderEntity entity = new OrderEntity();
                 entity.setOrderSn(UUID.randomUUID().toString());
-                rabbitTemplate.convertAndSend("cb-java-exchange", "cb22.java", entity,new CorrelationData(UUID.randomUUID().toString()));
+                rabbitTemplate.convertAndSend("cb-java-exchange", "cb22.java", entity, new CorrelationData(UUID.randomUUID().toString()));
             }
 
 

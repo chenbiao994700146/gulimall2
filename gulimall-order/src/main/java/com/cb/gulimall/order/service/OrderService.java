@@ -22,6 +22,7 @@ public interface OrderService extends IService<OrderEntity> {
 
     /**
      * 订单确认页放回需要的数据
+     *
      * @return
      */
     OrderConfirmVo confirmOrder() throws ExecutionException, InterruptedException;
@@ -37,7 +38,6 @@ public interface OrderService extends IService<OrderEntity> {
     PageUtils queryPageWithItem(Map<String, Object> params);
 
     /**
-     *
      * @param vo
      * @return
      */

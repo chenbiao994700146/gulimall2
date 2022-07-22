@@ -14,10 +14,10 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 秒杀商品的定时上架
- *      每天晚上3点：上架最近三天需要秒杀的商品
- *      当天00:00:00 - 23:59:59
- *      明天00:00:00 - 23:59:59
- *      后台00:00:00 - 23:59:59
+ * 每天晚上3点：上架最近三天需要秒杀的商品
+ * 当天00:00:00 - 23:59:59
+ * 明天00:00:00 - 23:59:59
+ * 后台00:00:00 - 23:59:59
  */
 @Slf4j
 @Service
@@ -29,17 +29,18 @@ public class SeckillSkuScheduled {
     @Autowired
     RedissonClient redissonClient;
 
-    private final String upload_lock="seckill:upload:lock";
+    private final String upload_lock = "seckill:upload:lock";
+
     //TODO 幂等性处理
     @Scheduled(cron = "*/8 * * * * ?")
-    public void uploadSeckillSkuLatest3Days(){
+    public void uploadSeckillSkuLatest3Days() {
         //1、重复上架无需处理
         log.info("上架秒杀的商品信息。。。");
         RLock lock = redissonClient.getLock(upload_lock);
         lock.lock(10, TimeUnit.SECONDS);
-        try{
+        try {
             seckillService.uploadSeckillSkuLatest3Days();
-        }finally {
+        } finally {
             lock.unlock();
         }
 

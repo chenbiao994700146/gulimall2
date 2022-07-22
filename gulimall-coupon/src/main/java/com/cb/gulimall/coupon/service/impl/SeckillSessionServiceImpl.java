@@ -44,7 +44,7 @@ public class SeckillSessionServiceImpl extends ServiceImpl<SeckillSessionDao, Se
     @Override
     public List<SeckillSessionEntity> getLates3DaySession() {
         List<SeckillSessionEntity> list = this.list(new QueryWrapper<SeckillSessionEntity>().between("start_time", startTime(), endTime()));
-        if(list!=null&&list.size()>0){
+        if (list != null && list.size() > 0) {
             List<SeckillSessionEntity> collect = list.stream().map(session -> {
                 Long id = session.getId();
                 List<SeckillSkuRelationEntity> relationEntities = seckillSkuRelationService.list(new QueryWrapper<SeckillSkuRelationEntity>().eq("promotion_session_id", id));
@@ -57,7 +57,7 @@ public class SeckillSessionServiceImpl extends ServiceImpl<SeckillSessionDao, Se
         return null;
     }
 
-    private String startTime(){
+    private String startTime() {
         LocalDate now = LocalDate.now();
         LocalTime min = LocalTime.MIN;
         LocalDateTime start = LocalDateTime.of(now, min);
@@ -66,7 +66,7 @@ public class SeckillSessionServiceImpl extends ServiceImpl<SeckillSessionDao, Se
         return format;
     }
 
-    private String endTime(){
+    private String endTime() {
         LocalDate now = LocalDate.now();
         LocalDate localDate = now.plusDays(2);
         LocalDateTime of = LocalDateTime.of(localDate, LocalTime.MAX);

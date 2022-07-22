@@ -18,15 +18,15 @@ public class MemberWebController {
     OrderFeignService orderFeignService;
 
     @GetMapping("/memberOrder.html")
-    public String memberOrderPage(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                  Model model){
+    public String memberOrderPage(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                  Model model) {
         //查出当前登录的用户的所有订单列表数据
         HashMap<String, Object> page = new HashMap<>();
-        page.put("page",pageNum.toString());
+        page.put("page", pageNum.toString());
 
         //
         R r = orderFeignService.listWithItem(page);
-        model.addAttribute("orders",r);
+        model.addAttribute("orders", r);
         orderFeignService.listWithItem(page);
 
         return "orderList";

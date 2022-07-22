@@ -10,5 +10,5 @@ public interface OrderFeignService {
 
 
     @GetMapping("/order/order/status/{orderSn}")
-     R getOrderStatus(@PathVariable("orderSn") String orderSn);
+    R getOrderStatus(@PathVariable("orderSn") String orderSn);
 }

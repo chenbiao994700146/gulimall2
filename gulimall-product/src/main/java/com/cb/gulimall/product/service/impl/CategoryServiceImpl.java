@@ -53,6 +53,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     @Resource
     RedissonClient redissonClient;
 
+
 //    @Resource
 //    private  StringRedisTemplate redisTemplate;
 
@@ -113,19 +114,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     /**
      * 级联更新所有关联的数据
-     *  @CacheEvict :失效模式的使用
      *
-     *  1、同时进行多种缓存操作 @Caching
-     *  2、指定删除某个分区下的所有数据 @CacheEvict(value = "category",allEntries = true)
-     *  3、存储统一类型的数据，都可以指定成同一个分区,分区名默认就是缓存的前缀
+     * @CacheEvict :失效模式的使用
+     * <p>
+     * 1、同时进行多种缓存操作 @Caching
+     * 2、指定删除某个分区下的所有数据 @CacheEvict(value = "category",allEntries = true)
+     * 3、存储统一类型的数据，都可以指定成同一个分区,分区名默认就是缓存的前缀
      */
-   // @CacheEvict(value = "category",key = "'Level1Categorys'")
+    // @CacheEvict(value = "category",key = "'Level1Categorys'")
 //    @Caching(evict = {
 //            @CacheEvict(value = "category",key = "'Level1Categorys'"),
 //            @CacheEvict(value = "category",key = "'getCatalogJson'")
 //
 //    })
-    @CacheEvict(value = "category",allEntries = true)
+    @CacheEvict(value = "category", allEntries = true)
     @Transactional
     @Override
     public void updateCascade(CategoryEntity category) {
@@ -136,18 +138,19 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     //TODO 产生对外内存溢出：
     //1)\springbo
     //没一个需要缓存的数据我们都来指定要放到那个名字的缓存【缓存的分区（按照业务类型分）】
-    @Cacheable(value = {"category"},key ="'Level1Categorys'",sync = true)  //代表当前方法的结果需要缓存，如果缓存中有，方法不用调用，如果缓存中没有，就会调用方法，最后将方法的结果放入缓存
+    @Cacheable(value = {"category"}, key = "'Level1Categorys'", sync = true)
+    //代表当前方法的结果需要缓存，如果缓存中有，方法不用调用，如果缓存中没有，就会调用方法，最后将方法的结果放入缓存
     @Override
     public List<CategoryEntity> getLevel1Categorys() {
         System.out.println("getLevel1Categorys......");
         long l = System.currentTimeMillis();
         List<CategoryEntity> categoryEntities = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", 0));
         System.out.println("消耗时间：" + (System.currentTimeMillis() - l));
-       return categoryEntities;
-       // return null;
+        return categoryEntities;
+        // return null;
     }
 
-    @Cacheable(value = "category",key = "'getCatalogJson'")
+    @Cacheable(value = "category", key = "'getCatalogJson'")
     @Override
     public Map<String, List<Catelog2Vo>> getCatalogJson() {
         List<CategoryEntity> selectList = baseMapper.selectList(null);
@@ -225,6 +228,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * 缓存数据一致行
      * 1）、双写模式
      * 2）、失效模式
+     *
      * @return
      */
     public Map<String, List<Catelog2Vo>> getCatalogJsonFromDbWithRedissionLock() {
@@ -238,7 +242,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         try {
             dataFromDb = getDataFromDb();
         } finally {
-             lock.unlock();
+            lock.unlock();
         }
 
 

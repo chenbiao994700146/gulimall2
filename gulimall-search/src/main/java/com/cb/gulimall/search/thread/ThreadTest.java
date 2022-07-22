@@ -3,7 +3,8 @@ package com.cb.gulimall.search.thread;
 import java.util.concurrent.*;
 
 public class ThreadTest {
-   public static ExecutorService executor = Executors.newFixedThreadPool(10);
+    public static ExecutorService executor = Executors.newFixedThreadPool(10);
+
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         /**
          * 1）、继承Thread   Thread01
@@ -14,7 +15,7 @@ public class ThreadTest {
          *
          * 4）、线程池
          */
-      //  System.out.println("main---start");
+        //  System.out.println("main---start");
 //        Thread01 thread01 = new Thread01();
 //        thread01.start();
 
@@ -27,7 +28,7 @@ public class ThreadTest {
 //        Integer integer = futureTask.get();
 
 
-          //  service.execute(new Runnable01());
+        //  service.execute(new Runnable01());
 
 
         /**
@@ -65,8 +66,6 @@ public class ThreadTest {
         //Executors.newFixedThreadPool();
         //Executors.newScheduledThreadPool();
         //Executors.newSingleThreadExecutor();
-
-
 
 
         //System.out.println("main---end");
@@ -193,11 +192,11 @@ public class ThreadTest {
         CompletableFuture<String> futureImg = CompletableFuture.supplyAsync(() -> {
             System.out.println("查询商品的图片信息");
             return "hello.jpg";
-        },executor);
+        }, executor);
         CompletableFuture<String> futureAttr = CompletableFuture.supplyAsync(() -> {
             System.out.println("查询商品的属性");
             return "黑色+256";
-        },executor);
+        }, executor);
         CompletableFuture<String> futureDesc = CompletableFuture.supplyAsync(() -> {
             System.out.println("查询商品的介绍");
             try {
@@ -206,42 +205,43 @@ public class ThreadTest {
                 e.printStackTrace();
             }
             return "华为";
-        },executor);
+        }, executor);
 
         CompletableFuture<Void> allOf = CompletableFuture.allOf(futureImg, futureDesc, futureAttr);
         allOf.get();
-        System.out.println("main---end"+futureImg.get()+"="+futureDesc.get()+"="+futureAttr.get());
+        System.out.println("main---end" + futureImg.get() + "=" + futureDesc.get() + "=" + futureAttr.get());
 
 
         CompletableFuture<Object> anyOf = CompletableFuture.anyOf(futureImg, futureDesc, futureAttr);
         anyOf.get();//等待所有结果完成
-        System.out.println("main---end"+anyOf.get());
+        System.out.println("main---end" + anyOf.get());
 
     }
-    public static class Thread01 extends  Thread{
+
+    public static class Thread01 extends Thread {
         @Override
         public void run() {
-            System.out.println("当前线程："+Thread.currentThread().getId());
-            int i=10/2;
-            System.out.println("运行的结果"+i);
+            System.out.println("当前线程：" + Thread.currentThread().getId());
+            int i = 10 / 2;
+            System.out.println("运行的结果" + i);
         }
     }
 
-    public  static class Runnable01 implements Runnable{
+    public static class Runnable01 implements Runnable {
         @Override
         public void run() {
-            System.out.println("当前线程："+Thread.currentThread().getId());
-            int i=10/2;
-            System.out.println("运行的结果"+i);
+            System.out.println("当前线程：" + Thread.currentThread().getId());
+            int i = 10 / 2;
+            System.out.println("运行的结果" + i);
         }
     }
 
-    public static class Callable01 implements Callable<Integer>{
+    public static class Callable01 implements Callable<Integer> {
         @Override
         public Integer call() {
-            System.out.println("当前线程："+Thread.currentThread().getId());
-            int i=10/2;
-            System.out.println("运行的结果"+i);
+            System.out.println("当前线程：" + Thread.currentThread().getId());
+            int i = 10 / 2;
+            System.out.println("运行的结果" + i);
             return i;
         }
     }

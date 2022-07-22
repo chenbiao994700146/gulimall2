@@ -40,7 +40,7 @@ public class GulimallSearchApplicationTests {
 
     @ToString
     @Data
-  static   class Account {
+    static class Account {
 
         private int account_number;
         private int balance;
@@ -60,38 +60,39 @@ public class GulimallSearchApplicationTests {
     /**
      * 1)方便
      * {
-     *     skuId:
-     *     spuId:
-     *     skuTitle:
-     *     price:
-     *     saleCount:
-     *     attr{
-     *         尺寸：
-     *         CPU:
-     *         分辨率：
-     *     }
+     * skuId:
+     * spuId:
+     * skuTitle:
+     * price:
+     * saleCount:
+     * attr{
+     * 尺寸：
+     * CPU:
+     * 分辨率：
      * }
-     *
+     * }
+     * <p>
      * 冗余：
-     *   100W*20=1000000*2KB=2000MB=2GB
+     * 100W*20=1000000*2KB=2000MB=2GB
+     * <p>
+     * 2){
+     * sku索引
+     * {skuId:
+     * spuId:
+     * }
+     * attr索引{
+     * spuId:
+     * attrs:[]
+     * }
+     * }
+     * <p>
+     * 搜索 小米：粮食、手机、电器
+     * 10000个，4000个spu
+     * 分步，4000个spu对应的所有可能属性
+     * esClien: spuId[4000个spuId] 4000*8=32000byte=32kb
+     * 并发
+     * 32kb*10000=32000m=32GB   每秒这么的传输，网络堵塞
      *
-     *  2){
-     *    sku索引
-     *      {skuId:
-     *      spuId:
-     *      }
-     *     attr索引{
-     *         spuId:
-     *         attrs:[]
-     *     }
-     *  }
-     *
-     *  搜索 小米：粮食、手机、电器
-     *  10000个，4000个spu
-     *  分步，4000个spu对应的所有可能属性
-     *  esClien: spuId[4000个spuId] 4000*8=32000byte=32kb
-     *  并发
-     *  32kb*10000=32000m=32GB   每秒这么的传输，网络堵塞
      * @throws IOException
      */
 
@@ -109,7 +110,7 @@ public class GulimallSearchApplicationTests {
 //        sourceBuilder.from();
 //        sourceBuilder.size();
 //        sourceBuilder.aggregation();
-        sourceBuilder.query(QueryBuilders.matchQuery("address","mill"));
+        sourceBuilder.query(QueryBuilders.matchQuery("address", "mill"));
 
         //1.2)、按照年龄的值分布进行聚合
         TermsAggregationBuilder ageAgg = AggregationBuilders.terms("ageAgg").field("age").size(10);
@@ -119,7 +120,7 @@ public class GulimallSearchApplicationTests {
         AvgAggregationBuilder balanceAvg = AggregationBuilders.avg("balanceAvg").field("balance");
         sourceBuilder.aggregation(balanceAvg);
 
-        System.out.println("检索条件"+sourceBuilder.toString());
+        System.out.println("检索条件" + sourceBuilder.toString());
 
         searchRequest.source(sourceBuilder);
 
@@ -137,7 +138,7 @@ public class GulimallSearchApplicationTests {
             hit.getType();
             String string = hit.getSourceAsString();
             Account account = JSON.parseObject(string, Account.class);
-            System.out.println("Account:"+account);
+            System.out.println("Account:" + account);
         }
 
         //3.2)获取聚合的分析数据
@@ -149,10 +150,10 @@ public class GulimallSearchApplicationTests {
         Terms ageAgg1 = aggregations.get("ageAgg");
         for (Terms.Bucket bucket : ageAgg1.getBuckets()) {
             String keyAsString = bucket.getKeyAsString();
-            System.out.println("年龄："+keyAsString);
+            System.out.println("年龄：" + keyAsString);
         }
         Avg balanceAvg1 = aggregations.get("balanceAvg");
-        System.out.println("平均薪资："+balanceAvg1.getValue());
+        System.out.println("平均薪资：" + balanceAvg1.getValue());
         //Aggregation balanceAvg2 = aggregations.get("balanceAvg");
 
     }
@@ -179,7 +180,7 @@ public class GulimallSearchApplicationTests {
     }
 
     @Data
-    class User{
+    class User {
         private String userName;
         private String gender;
         private Integer age;
@@ -189,8 +190,6 @@ public class GulimallSearchApplicationTests {
     public void contextLoads() {
         System.out.println(client);
     }
-
-
 
 
 }

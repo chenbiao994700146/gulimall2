@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -52,7 +53,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         MemberEntity entity = new MemberEntity();
 
         //设置默认等级
-       MemberLevelEntity levelEntity= memberLevelDao.getDefaultLevel();
+        MemberLevelEntity levelEntity = memberLevelDao.getDefaultLevel();
         entity.setLevelId(levelEntity.getId());
 
         //检查用户名个手机号是否唯一。为了让controller能感知异常，异常机制
@@ -73,20 +74,20 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
     }
 
     @Override
-    public void checkPhoneUnique(String phone) throws PhoneExistException{
+    public void checkPhoneUnique(String phone) throws PhoneExistException {
         MemberDao memberDao = this.baseMapper;
         Integer count = memberDao.selectCount(new QueryWrapper<MemberEntity>().eq("mobile", phone));
-        if(count>0){
-            throw  new PhoneExistException();
+        if (count > 0) {
+            throw new PhoneExistException();
         }
 
     }
 
     @Override
-    public void checkUsernameUnique(String userName) throws UserNameExistException{
+    public void checkUsernameUnique(String userName) throws UserNameExistException {
         MemberDao memberDao = this.baseMapper;
         Integer count = memberDao.selectCount(new QueryWrapper<MemberEntity>().eq("username", userName));
-        if(count>0){
+        if (count > 0) {
             throw new UserNameExistException();
         }
 
@@ -98,15 +99,15 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         String password = vo.getPassword();
         MemberDao memberDao = this.baseMapper;
         MemberEntity entity = memberDao.selectOne(new QueryWrapper<MemberEntity>().eq("mobile", loginacct).or().eq("password", password));
-        if(entity==null){
+        if (entity == null) {
             return null;
-        }else{
+        } else {
             String passwordDb = entity.getPassword();
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             boolean matches = encoder.matches(password, passwordDb);
-            if(matches){
+            if (matches) {
                 return entity;
-            }else{
+            } else {
                 return null;
             }
         }
@@ -119,7 +120,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         String uid = socialUser.getUid();
         MemberDao memberDao = this.baseMapper;
         MemberEntity entity = memberDao.selectOne(new QueryWrapper<MemberEntity>().eq("social_uid", uid));
-        if(entity!=null){
+        if (entity != null) {
             //这个用户已经注册
             MemberEntity update = new MemberEntity();
             update.setId(entity.getId());
@@ -131,7 +132,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
             entity.setAccessToken(socialUser.getAccess_token());
             entity.setExpiresIn(socialUser.getExpires_in());
             return entity;
-        }else{
+        } else {
             //2、没有查到但那个钱社交用户对应的记录我们就需要注册一个
             MemberEntity regist = new MemberEntity();
             //3、查询到当前社交用户社交账号（明细，性别等）
@@ -157,25 +158,24 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
 //            }
 
 
+            try {
+                Map<String, String> query = new HashMap<>();
+                query.put("access_token", socialUser.getAccess_token());
+                query.put("uid", socialUser.getUid());
+                // HttpResponse response = HttpUtils.doGet("api.weibo.com", "/2/users/show.json", "get", new HashMap<String, String>(), query);
 
-            try{
-                Map<String,String> query=new HashMap<>();
-                query.put("access_token",socialUser.getAccess_token());
-                query.put("uid",socialUser.getUid());
-               // HttpResponse response = HttpUtils.doGet("api.weibo.com", "/2/users/show.json", "get", new HashMap<String, String>(), query);
-
-                if(true){
+                if (true) {
                     //查询成功
-                  //  String json = EntityUtils.toString(response.getEntity());
-                  //  JSONObject jsonObject = JSON.parseObject(json);
+                    //  String json = EntityUtils.toString(response.getEntity());
+                    //  JSONObject jsonObject = JSON.parseObject(json);
                     String name = "chenbiao";
                     String gender = "m";
 
                     regist.setNickname(name);
-                    regist.setGender("m".equals(gender)?1:0);
+                    regist.setGender("m".equals(gender) ? 1 : 0);
                 }
 
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
 
@@ -185,7 +185,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
             memberDao.insert(regist);
             return regist;
         }
-
 
 
     }

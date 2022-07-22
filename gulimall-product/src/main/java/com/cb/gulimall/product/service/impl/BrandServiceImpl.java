@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -31,8 +32,8 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
         String key = (String) params.get("key");
         QueryWrapper<BrandEntity> queryWrapper = new QueryWrapper<>();
 
-        if(!StringUtils.isEmpty(key)){
-            queryWrapper.eq("brand_id",key).or().like("name",key);
+        if (!StringUtils.isEmpty(key)) {
+            queryWrapper.eq("brand_id", key).or().like("name", key);
         }
 
 
@@ -48,9 +49,9 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
     public void updateDetail(BrandEntity brand) {
         //保证冗余字段的数据一致
         this.updateById(brand);
-        if(!StringUtils.isEmpty(brand.getName())){
+        if (!StringUtils.isEmpty(brand.getName())) {
             //同步更新其他关联表中的
-            categoryBrandRelationService.updateBrand(brand.getBrandId(),brand.getName());
+            categoryBrandRelationService.updateBrand(brand.getBrandId(), brand.getName());
 
             //TODO 更新其他关联
         }
@@ -60,7 +61,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
     public List<BrandEntity> getBrandsByIds(List<Long> brandId) {
 
 
-        return  baseMapper.selectList(new QueryWrapper<BrandEntity>().in("brand_id",brandId));
+        return baseMapper.selectList(new QueryWrapper<BrandEntity>().in("brand_id", brandId));
     }
 
 }

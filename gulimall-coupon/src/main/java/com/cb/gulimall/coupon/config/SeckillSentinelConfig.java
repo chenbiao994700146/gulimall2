@@ -15,7 +15,7 @@ import java.io.IOException;
 @Configuration
 public class SeckillSentinelConfig {
 
-    public SeckillSentinelConfig(){
+    public SeckillSentinelConfig() {
         WebCallbackManager.setUrlBlockHandler(new UrlBlockHandler() {
             @Override
             public void blocked(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, BlockException e) throws IOException {

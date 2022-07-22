@@ -21,21 +21,22 @@ package com.cb.common.exception;
  * * * * * * * * * */
 
 public enum BizCodeEnume {
-    UNKNOW_EXCEPTION(1000,"系统未知异常"),
-    VAILD_EXCEPTION(10001,"参数格式校验失败"),
-    SMS_CODE_EXCEPTION(10002,"验证码频率太高"),
-    TO_MANY_REQUEST(10003,"请求流量过大"),
-    PRODUCT_UP_EXCEPTION(11000,"商品上架错误"),
-    USER_EXIST__EXCEPTION(15001,"用户存在"),
-    PHONE_EXIST__EXCEPTION(15002,"手机号存在"),
-    NO_STOCK_EXCEPTION(21000,"没有库存"),
-    LOGINACCT_PASSWORD_INVAILD__EXCEPTION(15003,"账号密码错误");
+    UNKNOW_EXCEPTION(1000, "系统未知异常"),
+    VAILD_EXCEPTION(10001, "参数格式校验失败"),
+    SMS_CODE_EXCEPTION(10002, "验证码频率太高"),
+    TO_MANY_REQUEST(10003, "请求流量过大"),
+    PRODUCT_UP_EXCEPTION(11000, "商品上架错误"),
+    USER_EXIST__EXCEPTION(15001, "用户存在"),
+    PHONE_EXIST__EXCEPTION(15002, "手机号存在"),
+    NO_STOCK_EXCEPTION(21000, "没有库存"),
+    LOGINACCT_PASSWORD_INVAILD__EXCEPTION(15003, "账号密码错误");
 
     private int code;
     private String msg;
-    BizCodeEnume(int code,String msg){
-        this.code=code;
-        this.msg=msg;
+
+    BizCodeEnume(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
     }
 
 

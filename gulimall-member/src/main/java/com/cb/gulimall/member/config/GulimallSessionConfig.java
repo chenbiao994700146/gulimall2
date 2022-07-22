@@ -9,15 +9,15 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
 
 
 /**
- *  1、依赖
- *  2、yml配置,config配置，拦截器配置
- *  3、启动配置
+ * 1、依赖
+ * 2、yml配置,config配置，拦截器配置
+ * 3、启动配置
  */
 @Configuration
 public class GulimallSessionConfig {
 
     @Bean
-    public CookieSerializer cookieSerializer(){
+    public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         serializer.setDomainName("gulimall.com");
         serializer.setCookieName("GULISESSION");

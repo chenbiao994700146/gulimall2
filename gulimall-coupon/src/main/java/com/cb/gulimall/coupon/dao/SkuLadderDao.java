@@ -6,12 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * ÉÌÆ·½×ÌÝ¼Û¸ñ
- * 
+ *
  * @author chenbiao
  * @email chenbiao@gmail.com
  * @date 2021-09-23 20:56:19
  */
 @Mapper
 public interface SkuLadderDao extends BaseMapper<SkuLadderEntity> {
-	
+
 }

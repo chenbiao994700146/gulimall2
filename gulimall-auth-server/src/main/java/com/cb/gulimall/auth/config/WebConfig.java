@@ -9,6 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     /**
      * 视图映射
+     *
      * @param registry
      */
     @Override

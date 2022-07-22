@@ -3,7 +3,7 @@
 
 <mapper namespace="com.cb.gulimall.product.dao.AttrGroupDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.cb.gulimall.product.entity.AttrGroupEntity" id="attrGroupMap">
         <result property="attrGroupId" column="attr_group_id"/>
         <result property="attrGroupName" column="attr_group_name"/>
@@ -24,18 +24,18 @@
     <select id="getAttrGroupWithAttrsBySpuId"
             resultMap="spuItemAttrGroupVo">
 
-SELECT
-d.spu_id,
-a.attr_group_name ,
-a.attr_group_id ,
-b.attr_id,
-c.attr_name ,
-d.attr_value
-from pms_attr_group a
-LEFT join pms_attr_attrgroup_relation b on a.attr_group_id=b.attr_group_id
-left join pms_attr c on b.attr_id=c.attr_id
-LEFT join pms_product_attr_value d on c.attr_id=d.attr_id
-where a.catelog_id=#{catalogId} and d.spu_id=#{spuId}
+        SELECT
+        d.spu_id,
+        a.attr_group_name ,
+        a.attr_group_id ,
+        b.attr_id,
+        c.attr_name ,
+        d.attr_value
+        from pms_attr_group a
+        LEFT join pms_attr_attrgroup_relation b on a.attr_group_id=b.attr_group_id
+        left join pms_attr c on b.attr_id=c.attr_id
+        LEFT join pms_product_attr_value d on c.attr_id=d.attr_id
+        where a.catelog_id=#{catalogId} and d.spu_id=#{spuId}
 
     </select>
 

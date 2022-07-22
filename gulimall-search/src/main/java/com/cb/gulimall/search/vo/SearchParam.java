@@ -19,7 +19,7 @@ public class SearchParam {
     private List<Long> brandId;//品牌id,可以多选
     private List<String> attrs; //按照属性进行删选
 
-    private Integer pageNum=1; //页码
+    private Integer pageNum = 1; //页码
 
     private String _queryString;//原生的所有查询条件
 }

@@ -20,7 +20,6 @@ import java.util.Arrays;
  * 1.引入依赖
  * 2.配置
  * 3.引入ossClient
- *
  */
 
 @RunWith(SpringRunner.class)
@@ -36,7 +35,7 @@ public class UploadTest {
 
 
     @Test
-    public void testFindPath(){
+    public void testFindPath() {
         Long[] catelogPath = categoryService.findCatelogPath(225L);
         //System.out.println();
         log.info("完整路径：{}", Arrays.asList(catelogPath));

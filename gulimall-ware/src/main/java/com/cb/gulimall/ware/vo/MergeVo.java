@@ -14,4 +14,4 @@ public class MergeVo {
 
     private Long purchaseId;
     private List<Long> items;
- }
+}

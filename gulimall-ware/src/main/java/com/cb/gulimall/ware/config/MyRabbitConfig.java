@@ -27,55 +27,55 @@ public class MyRabbitConfig {
 //    }
 
     @Bean
-    public MessageConverter messageConverter(){
+    public MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
 
     @Bean
-    public Exchange stockEventExchange(){
+    public Exchange stockEventExchange() {
         //String name, boolean durable, boolean autoDelete, Map<String, Object> arguments
-        return new TopicExchange("stock-event-exchange",true,false);
+        return new TopicExchange("stock-event-exchange", true, false);
     }
 
     @Bean
-    public Queue stockReleaseStockQueue(){
-        return new Queue("stock.release.stock.queue",true,false,false);
+    public Queue stockReleaseStockQueue() {
+        return new Queue("stock.release.stock.queue", true, false, false);
     }
 
     @Bean
-    public Queue stockDelayQueue(){
+    public Queue stockDelayQueue() {
 
-        Map<String, Object> arguments=new HashMap<>();
+        Map<String, Object> arguments = new HashMap<>();
         /**
          * x-dead-letter-exchange: order-event-exchange
          * x-dead-letter-routing-key: order.release.order
          * x-message-ttl: 60000
          */
-        arguments.put("x-dead-letter-exchange","stock-event-exchange");
-        arguments.put("x-dead-letter-routing-key","stock.release");
-        arguments.put("x-message-ttl",120000);
-        return new Queue("stock.delay.queue",true,false,false,arguments);
+        arguments.put("x-dead-letter-exchange", "stock-event-exchange");
+        arguments.put("x-dead-letter-routing-key", "stock.release");
+        arguments.put("x-message-ttl", 120000);
+        return new Queue("stock.delay.queue", true, false, false, arguments);
     }
 
     @Bean
-    public Binding stockReleaseBinding(){
+    public Binding stockReleaseBinding() {
         //String destination, DestinationType destinationType, String exchange, String routingKey,
         //			Map<String, Object> arguments
         return new Binding("stock.release.stock.queue",
                 Binding.DestinationType.QUEUE,
                 "stock-event-exchange",
-                "stock.release.#",null);
+                "stock.release.#", null);
     }
 
     @Bean
-    public Binding stockLockedBinding(){
+    public Binding stockLockedBinding() {
         //String destination, DestinationType destinationType, String exchange, String routingKey,
         //			Map<String, Object> arguments
         return new Binding("stock.delay.queue",
                 Binding.DestinationType.QUEUE,
                 "stock-event-exchange",
-                "stock.locked",null);
+                "stock.locked", null);
     }
 
 //    /**

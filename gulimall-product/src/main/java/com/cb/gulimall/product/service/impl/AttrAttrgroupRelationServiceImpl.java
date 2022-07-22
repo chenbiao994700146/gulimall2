@@ -37,7 +37,7 @@ public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupR
         List<AttrAttrgroupRelationEntity> collect = vos.stream().map(itme -> {
             AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
 
-                    BeanUtils.copyProperties(itme, relationEntity);
+            BeanUtils.copyProperties(itme, relationEntity);
             return relationEntity;
         }).collect(Collectors.toList());
         this.saveBatch(collect);

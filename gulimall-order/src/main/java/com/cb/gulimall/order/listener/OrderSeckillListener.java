@@ -25,19 +25,18 @@ public class OrderSeckillListener {
     public void listener(SeckillOrderTo seckillOrderTo, Channel channel, Message message) throws IOException {
 
 
-        try{
+        try {
             log.info("准备创建秒杀单的详细信息。。。");
             orderService.createSeck(seckillOrderTo);
 
 
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 
-        }catch (Exception e){
-            channel.basicReject(message.getMessageProperties().getDeliveryTag(),true);
+        } catch (Exception e) {
+            channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
         }
 
     }
-
 
 
 }

@@ -36,7 +36,7 @@ public class WareMybatisConfig {
     DataSourceProperties dataSourceProperties;
 
     @Bean
-    public DataSource dataSource(DataSourceProperties dataSourceProperties){
+    public DataSource dataSource(DataSourceProperties dataSourceProperties) {
         HikariDataSource dataSource = dataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
         if (StringUtils.hasText(dataSourceProperties.getName())) {
             dataSource.setPoolName(dataSourceProperties.getName());

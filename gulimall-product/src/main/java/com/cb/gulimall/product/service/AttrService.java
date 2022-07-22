@@ -40,6 +40,7 @@ public interface AttrService extends IService<AttrEntity> {
 
     /**
      * 在指定的所有属性集合里面，挑出能被检索的属性
+     *
      * @param attrIds
      * @return
      */

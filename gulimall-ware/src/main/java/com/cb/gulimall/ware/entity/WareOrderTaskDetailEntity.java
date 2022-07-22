@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * ¿â´æ¹¤×÷µ¥
- * 
+ *
  * @author chenbiao
  * @email chenbiao@gmail.com
  * @date 2021-09-23 21:24:10
@@ -22,32 +22,32 @@ import lombok.NoArgsConstructor;
 @Data
 @TableName("wms_ware_order_task_detail")
 public class WareOrderTaskDetailEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	/**
-	 * sku_id
-	 */
-	private Long skuId;
-	/**
-	 * sku_name
-	 */
-	private String skuName;
-	/**
-	 * ¹ºÂò¸öÊý
-	 */
-	private Integer skuNum;
-	/**
-	 * ¹¤×÷µ¥id
-	 */
-	private Long taskId;
+    /**
+     * id
+     */
+    @TableId
+    private Long id;
+    /**
+     * sku_id
+     */
+    private Long skuId;
+    /**
+     * sku_name
+     */
+    private String skuName;
+    /**
+     * ¹ºÂò¸öÊý
+     */
+    private Integer skuNum;
+    /**
+     * ¹¤×÷µ¥id
+     */
+    private Long taskId;
 
-	private Long wareId;
+    private Long wareId;
 
-	private Integer lockStatus;
+    private Integer lockStatus;
 
 }

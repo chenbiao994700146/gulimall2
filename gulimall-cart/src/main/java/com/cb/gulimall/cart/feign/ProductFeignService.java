@@ -13,12 +13,12 @@ import java.util.List;
 public interface ProductFeignService {
 
     @RequestMapping("/product/skuinfo/info/{skuId}")
-    // @RequiresPermissions("product:skuinfo:info")
-     R info(@PathVariable("skuId") Long skuId);
+        // @RequiresPermissions("product:skuinfo:info")
+    R info(@PathVariable("skuId") Long skuId);
 
     @GetMapping("/product/skusaleattrvalue/stringList/{skuId}")
-     List<String> getSkuSaleAttrValues(@PathVariable("skuId") Long skuId);
+    List<String> getSkuSaleAttrValues(@PathVariable("skuId") Long skuId);
 
     @GetMapping("/product/skuinfo/{skuId}/price")
-     R getPrice(@PathVariable("skuId") Long skuId);
+    R getPrice(@PathVariable("skuId") Long skuId);
 }

@@ -9,5 +9,5 @@ import java.util.List;
 @FeignClient("gulimall-cart")
 public interface CartFeignService {
     @GetMapping("/currentUserCartItems")
-     List<OrderItemVo> getCurrentuserCartItems();
+    List<OrderItemVo> getCurrentuserCartItems();
 }

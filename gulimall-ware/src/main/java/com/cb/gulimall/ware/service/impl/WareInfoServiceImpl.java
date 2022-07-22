@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -34,8 +35,8 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoDao, WareInfoEntity
         QueryWrapper<WareInfoEntity> wrapper = new QueryWrapper<>();
         String key = (String) params.get("key");
 
-        if(!StringUtils.isEmpty(key)){
-            wrapper.eq("id",key).or().like("name",key).or().like("address",key).or().like("areacode",key);
+        if (!StringUtils.isEmpty(key)) {
+            wrapper.eq("id", key).or().like("name", key).or().like("address", key).or().like("areacode", key);
         }
         IPage<WareInfoEntity> page = this.page(
                 new Query<WareInfoEntity>().getPage(params),
@@ -49,9 +50,9 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoDao, WareInfoEntity
     public FareVo getFare(Long addrId) {
         FareVo fareVo = new FareVo();
         R r = memberFeginService.info(addrId);
-        MemberAddressVo data = r.getData("memberReceiveAddress",new TypeReference<MemberAddressVo>() {
+        MemberAddressVo data = r.getData("memberReceiveAddress", new TypeReference<MemberAddressVo>() {
         });
-        if(data!=null){
+        if (data != null) {
             BigDecimal fare = new BigDecimal("8");
             fareVo.setFare(fare);
             fareVo.setAddress(data);

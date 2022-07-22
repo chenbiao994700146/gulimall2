@@ -82,35 +82,35 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
          * max: 0
          */
         String key = (String) params.get("key");
-        if(!StringUtils.isEmpty(key)){
-            wrapper.and((w)->{
-                w.eq("sku_id",key).or().like("sku_name",key);
+        if (!StringUtils.isEmpty(key)) {
+            wrapper.and((w) -> {
+                w.eq("sku_id", key).or().like("sku_name", key);
             });
         }
         String catelogId = (String) params.get("catelogId");
-        if(!StringUtils.isEmpty(catelogId) && !"0".equalsIgnoreCase(catelogId)){
+        if (!StringUtils.isEmpty(catelogId) && !"0".equalsIgnoreCase(catelogId)) {
 
-            wrapper.eq("catalog_id",catelogId);
+            wrapper.eq("catalog_id", catelogId);
         }
         String brandId = (String) params.get("brandId");
 
-        if(!StringUtils.isEmpty(brandId) && !"0".equalsIgnoreCase(brandId)){
-            wrapper.eq("brand_id",brandId);
+        if (!StringUtils.isEmpty(brandId) && !"0".equalsIgnoreCase(brandId)) {
+            wrapper.eq("brand_id", brandId);
         }
         String min = (String) params.get("min");
-        if(!StringUtils.isEmpty(min)){
-            wrapper.ge("price",min);
+        if (!StringUtils.isEmpty(min)) {
+            wrapper.ge("price", min);
         }
         String max = (String) params.get("max");
 
-        if(!StringUtils.isEmpty(max) ){
+        if (!StringUtils.isEmpty(max)) {
             try {
                 BigDecimal bigDecimal = new BigDecimal(max);
-               if( bigDecimal.compareTo(new BigDecimal("0"))==1){
-                   wrapper.le("price",max);
-               }
+                if (bigDecimal.compareTo(new BigDecimal("0")) == 1) {
+                    wrapper.le("price", max);
+                }
 
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
 
@@ -126,7 +126,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
 
     @Override
     public List<SkuInfoEntity> getSkusBySpuId(Long spuId) {
-        List<SkuInfoEntity> list = this.list(new QueryWrapper<SkuInfoEntity>().eq("spu_id",spuId));
+        List<SkuInfoEntity> list = this.list(new QueryWrapper<SkuInfoEntity>().eq("spu_id", spuId));
 
         return list;
     }
@@ -177,7 +177,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         //3、查询当前sku是否参与秒杀优惠
         CompletableFuture<Void> seckill = CompletableFuture.runAsync(() -> {
             R seckillInfo = seckillFeignService.getSkuSeckillInfo(skuId);
-            if(seckillInfo.getCode()==0){
+            if (seckillInfo.getCode() == 0) {
                 SeckillInfoVo seckillInfoVo = seckillInfo.getData(new TypeReference<SeckillInfoVo>() {
                 });
                 skuItemVo.setSeckillInfo(seckillInfoVo);
@@ -185,9 +185,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         }, executor);
 
         //等待所有异步任务执行完成返回结果
-      CompletableFuture.allOf( attrFutrue, descFuture, baseAttrFuture, imageFuture,seckill).get();
+        CompletableFuture.allOf(attrFutrue, descFuture, baseAttrFuture, imageFuture, seckill).get();
 
-      //总结：
+        //总结：
 
         return skuItemVo;
     }

@@ -14,6 +14,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 public class GulimallWareApplication {
     public static void main(String[] args) {
-            SpringApplication.run(GulimallWareApplication.class, args);
-        }
+        SpringApplication.run(GulimallWareApplication.class, args);
+    }
 }

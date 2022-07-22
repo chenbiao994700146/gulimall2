@@ -45,34 +45,36 @@ public class LoginController {
 
     @Resource
     MemberFeignService memberFeignService;
+
     /**
      * 发送一个请求直接跳转到一个页面
      * springmvc viewcontroller; 将请求和页面映射过来
+     *
      * @return
      */
     @ResponseBody
     @GetMapping("/sms/sendCode")
-    public R sendCode(@RequestParam("phone") String phone){
+    public R sendCode(@RequestParam("phone") String phone) {
 
         //TODO 接口防刷
 
         String redisCode = redisTemplate.opsForValue().get(AuthServerConstant.SMS_CODE_CACHE_PREFIX + phone);
-        if(!StringUtils.isEmpty(redisCode)){
+        if (!StringUtils.isEmpty(redisCode)) {
             long l = Long.parseLong(redisCode.split("_")[1]);
-            long s=System.currentTimeMillis()-l;
-            if(System.currentTimeMillis()-l<60000){
+            long s = System.currentTimeMillis() - l;
+            if (System.currentTimeMillis() - l < 60000) {
                 System.out.println("进入跳回信息");
-                return R.error(BizCodeEnume.SMS_CODE_EXCEPTION.getCode(),BizCodeEnume.SMS_CODE_EXCEPTION.getMsg());
+                return R.error(BizCodeEnume.SMS_CODE_EXCEPTION.getCode(), BizCodeEnume.SMS_CODE_EXCEPTION.getMsg());
             }
         }
 
 
         String code = UUID.randomUUID().toString().substring(0, 5);
-        String subString=code+"_"+System.currentTimeMillis();
+        String subString = code + "_" + System.currentTimeMillis();
 
-        redisTemplate.opsForValue().set(AuthServerConstant.SMS_CODE_CACHE_PREFIX+phone,subString,10, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(AuthServerConstant.SMS_CODE_CACHE_PREFIX + phone, subString, 10, TimeUnit.MINUTES);
 
-        thridPartFeignService.sendCode(phone,code);
+        thridPartFeignService.sendCode(phone, code);
         return R.ok();
     }
 
@@ -86,65 +88,66 @@ public class LoginController {
      * @return
      */
     @PostMapping("/regist")
-    public String regist(@Valid UserRegistVo vo, BindingResult result, RedirectAttributes redirectAttributes){
-        if(result.hasErrors()){
+    public String regist(@Valid UserRegistVo vo, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
 
             Map<String, String> errors = result.getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
             //model.addAttribute("errors",errors);
-            redirectAttributes.addFlashAttribute("errors",errors);
+            redirectAttributes.addFlashAttribute("errors", errors);
             //Request method 'POST' not supported
             //用户注册--->/regist[post]----->转发/reg.html(路径映射默认都是get访问的)
             //校验出错，转发到注册页
-           // return "reg";
-            return  "redirect:http://auth.gulimall.com/reg.html";
+            // return "reg";
+            return "redirect:http://auth.gulimall.com/reg.html";
         }
 
         //真正注册，调用远程服务
         //1.校验验证码
-         String code = vo.getCode();
+        String code = vo.getCode();
         String s = redisTemplate.opsForValue().get(AuthServerConstant.SMS_CODE_CACHE_PREFIX + vo.getPhone());
-        if(!StringUtils.isEmpty(s)){
-            if(code.equalsIgnoreCase(s.split("_")[0])){
+        if (!StringUtils.isEmpty(s)) {
+            if (code.equalsIgnoreCase(s.split("_")[0])) {
                 //删除验证码；令牌机制
                 redisTemplate.delete(AuthServerConstant.SMS_CODE_CACHE_PREFIX + vo.getPhone());
                 //验证通过，真正注册，调用远程服务
                 R r = memberFeignService.regist(vo);
-                if(r.getCode()==0){
+                if (r.getCode() == 0) {
                     //成功
 
 
                     return "redirect:http://auth.gulimall.com/login.html";
-                }else{
+                } else {
 
                     HashMap<Object, Object> errors = new HashMap<>();
-                    errors.put("code",r.getData("msg",new TypeReference<String>(){}));
-                    redirectAttributes.addFlashAttribute("errors",errors);
-                    return  "redirect:http://auth.gulimall.com/reg.html";
+                    errors.put("code", r.getData("msg", new TypeReference<String>() {
+                    }));
+                    redirectAttributes.addFlashAttribute("errors", errors);
+                    return "redirect:http://auth.gulimall.com/reg.html";
                 }
 
-            }else{
+            } else {
                 HashMap<Object, Object> errors = new HashMap<>();
-                errors.put("code","验证码错误");
-                redirectAttributes.addFlashAttribute("errors",errors);
-                return  "redirect:http://auth.gulimall.com/reg.html";
+                errors.put("code", "验证码错误");
+                redirectAttributes.addFlashAttribute("errors", errors);
+                return "redirect:http://auth.gulimall.com/reg.html";
             }
-        }else{
+        } else {
             HashMap<Object, Object> errors = new HashMap<>();
-            errors.put("code","验证码错误");
-            redirectAttributes.addFlashAttribute("errors",errors);
-            return  "redirect:http://auth.gulimall.com/reg.html";
+            errors.put("code", "验证码错误");
+            redirectAttributes.addFlashAttribute("errors", errors);
+            return "redirect:http://auth.gulimall.com/reg.html";
         }
 
 
     }
 
     @GetMapping("/login.html")
-    public String loginPage(HttpSession session){
+    public String loginPage(HttpSession session) {
         Object attribute = session.getAttribute(LOGIN_USER);
-        if(attribute==null){
+        if (attribute == null) {
             //没登录
             return "login";
-        }else{
+        } else {
             return "redirect:http://gulimall.com";
         }
 
@@ -153,24 +156,24 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public String login(UserLoginVo vo, RedirectAttributes redirectAttributes, HttpSession session){
+    public String login(UserLoginVo vo, RedirectAttributes redirectAttributes, HttpSession session) {
 
 
         R login = memberFeignService.login(vo);
-        if(login.getCode()==0){
+        if (login.getCode() == 0) {
             MemberRespVo data = login.getData("data", new TypeReference<MemberRespVo>() {
             });
-            session.setAttribute(LOGIN_USER,data);
+            session.setAttribute(LOGIN_USER, data);
             return "redirect:http://gulimall.com";
-        }else{
+        } else {
             Map<String, String> errors = new HashMap<>();
-            errors.put("msg",login.getData("msg",new TypeReference<String>(){}));
-            redirectAttributes.addFlashAttribute("errors",errors);
-            return  "redirect:http://auth.gulimall.com/login.html";
+            errors.put("msg", login.getData("msg", new TypeReference<String>() {
+            }));
+            redirectAttributes.addFlashAttribute("errors", errors);
+            return "redirect:http://auth.gulimall.com/login.html";
         }
 
     }
-
 
 
 }

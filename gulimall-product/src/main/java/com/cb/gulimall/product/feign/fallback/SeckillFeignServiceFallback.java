@@ -12,6 +12,6 @@ public class SeckillFeignServiceFallback implements SeckillFeignService {
     @Override
     public R getSkuSeckillInfo(Long skuId) {
         log.info("熔断方法调用。。。getSkuSeckillInfo");
-        return R.error(BizCodeEnume.TO_MANY_REQUEST.getCode(),BizCodeEnume.TO_MANY_REQUEST.getMsg());
+        return R.error(BizCodeEnume.TO_MANY_REQUEST.getCode(), BizCodeEnume.TO_MANY_REQUEST.getMsg());
     }
 }

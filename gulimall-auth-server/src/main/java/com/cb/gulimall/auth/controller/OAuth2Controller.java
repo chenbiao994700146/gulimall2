@@ -37,15 +37,15 @@ public class OAuth2Controller {
     public String weibo(@RequestParam("code") String code, HttpSession session, HttpServletResponse response) throws Exception {
 
         log.info("进入/oauth2.0/weibo/success");
-        Map<String,String> map=new HashMap<>();
-        map.put("client_id","3777541342");
-        map.put("client_secret","7461ca16fdbee91e5ba0e5cc8f4fb512");
-        map.put("grant_type","authorization_code");
-        map.put("redirect_uri","http://auth.gulimall.com/oauth/weibo/success");
-        map.put("code",code);
+        Map<String, String> map = new HashMap<>();
+        map.put("client_id", "3777541342");
+        map.put("client_secret", "7461ca16fdbee91e5ba0e5cc8f4fb512");
+        map.put("grant_type", "authorization_code");
+        map.put("redirect_uri", "http://auth.gulimall.com/oauth/weibo/success");
+        map.put("code", code);
 
         //1.根据code换取accessToken;
-       // HttpResponse response = HttpUtils.doPost("api.weibo.com", "/oauth2/access_token", "post", null, null, map);
+        // HttpResponse response = HttpUtils.doPost("api.weibo.com", "/oauth2/access_token", "post", null, null, map);
 
 //
 //        if(response.getStatusLine().getStatusCode() == 200){
@@ -72,40 +72,39 @@ public class OAuth2Controller {
 //        }
 
 
-
-        if(true){
-           // String json = EntityUtils.toString(response.getEntity());
-           // SocialUser socialUser = JSON.parseObject(json, SocialUser.class);
-            SocialUser socialUser=new SocialUser();
+        if (true) {
+            // String json = EntityUtils.toString(response.getEntity());
+            // SocialUser socialUser = JSON.parseObject(json, SocialUser.class);
+            SocialUser socialUser = new SocialUser();
             socialUser.setIsRealName("chenbiao");
             socialUser.setAccess_token(UUID.randomUUID().toString());
             socialUser.setExpires_in(1000L);
             socialUser.setRemind_in("1qaz");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            socialUser.setUid( sdf.format(new Date()) );
+            socialUser.setUid(sdf.format(new Date()));
             //知道当前是那个社交用户
             //1)、当前用户如果是第一次进网站，自动组成进来
             //登录或者注册这个社交用户
             R r = memberFeignService.oauth2login(socialUser);
-            if(r.getCode()==0){
+            if (r.getCode() == 0) {
                 MemberRespVo data = r.getData("data", new TypeReference<MemberRespVo>() {
                 });
-                System.out.println("登录成功：用户信息"+data.toString());
+                System.out.println("登录成功：用户信息" + data.toString());
                 //1、第一次使用session;命令浏览器保存信息。发卡
                 //2、以后浏览器访问那个网站就会带上这个网站的cookie;
                 //子域之间；gulimall.com  auth.gulimall.com  order.gulimall.com
                 //发卡的时候（指定父域名），即使子域系统发的卡，也能让父域之间使用。
                 //TODO 1、默认发的令牌。session= 。作用域：（解决子域session共享问题）
                 //TODO 2、使用JSON的序列化对数据到redis中
-                session.setAttribute(LOGIN_USER,data);
-              //  response.addCookie(new Cookie("JESSIONID","dada").setDomain(""));
+                session.setAttribute(LOGIN_USER, data);
+                //  response.addCookie(new Cookie("JESSIONID","dada").setDomain(""));
                 //2.登录成功就跳回首页
                 return "redirect:http://gulimall.com";
-            }else{
+            } else {
                 return "redirect:http://auth.gulimall.com/login.html";
             }
 
-        }else{
+        } else {
             return "redirect:http://auth.gulimall.com/login.html";
         }
 

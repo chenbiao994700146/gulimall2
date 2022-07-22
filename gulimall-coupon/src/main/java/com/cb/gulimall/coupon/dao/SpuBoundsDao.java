@@ -6,12 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * ÉÌÆ·spu»ý·ÖÉèÖÃ
- * 
+ *
  * @author chenbiao
  * @email chenbiao@gmail.com
  * @date 2021-09-23 20:56:19
  */
 @Mapper
 public interface SpuBoundsDao extends BaseMapper<SpuBoundsEntity> {
-	
+
 }

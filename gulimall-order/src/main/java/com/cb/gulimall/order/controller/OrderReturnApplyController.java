@@ -16,7 +16,6 @@ import com.cb.common.utils.PageUtils;
 import com.cb.common.utils.R;
 
 
-
 /**
  * ¶©µ¥ÍË»õÉêÇë
  *
@@ -35,7 +34,7 @@ public class OrderReturnApplyController {
      */
     @RequestMapping("/list")
     //@RequiresPermissions("order:orderreturnapply:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = orderReturnApplyService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -46,9 +45,9 @@ public class OrderReturnApplyController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-   // @RequiresPermissions("order:orderreturnapply:info")
-    public R info(@PathVariable("id") Long id){
-		OrderReturnApplyEntity orderReturnApply = orderReturnApplyService.getById(id);
+    // @RequiresPermissions("order:orderreturnapply:info")
+    public R info(@PathVariable("id") Long id) {
+        OrderReturnApplyEntity orderReturnApply = orderReturnApplyService.getById(id);
 
         return R.ok().put("orderReturnApply", orderReturnApply);
     }
@@ -58,8 +57,8 @@ public class OrderReturnApplyController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("order:orderreturnapply:save")
-    public R save(@RequestBody OrderReturnApplyEntity orderReturnApply){
-		orderReturnApplyService.save(orderReturnApply);
+    public R save(@RequestBody OrderReturnApplyEntity orderReturnApply) {
+        orderReturnApplyService.save(orderReturnApply);
 
         return R.ok();
     }
@@ -69,8 +68,8 @@ public class OrderReturnApplyController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("order:orderreturnapply:update")
-    public R update(@RequestBody OrderReturnApplyEntity orderReturnApply){
-		orderReturnApplyService.updateById(orderReturnApply);
+    public R update(@RequestBody OrderReturnApplyEntity orderReturnApply) {
+        orderReturnApplyService.updateById(orderReturnApply);
 
         return R.ok();
     }
@@ -79,9 +78,9 @@ public class OrderReturnApplyController {
      * 删除
      */
     @RequestMapping("/delete")
-   // @RequiresPermissions("order:orderreturnapply:delete")
-    public R delete(@RequestBody Long[] ids){
-		orderReturnApplyService.removeByIds(Arrays.asList(ids));
+    // @RequiresPermissions("order:orderreturnapply:delete")
+    public R delete(@RequestBody Long[] ids) {
+        orderReturnApplyService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

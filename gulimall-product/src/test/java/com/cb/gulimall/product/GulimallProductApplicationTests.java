@@ -53,9 +53,7 @@ public class GulimallProductApplicationTests {
     }
 
     @Test
-  public  void contextLoads() throws FileNotFoundException {
-
-
+    public void contextLoads() throws FileNotFoundException {
 
 
 //        BrandEntity entity = new BrandEntity();

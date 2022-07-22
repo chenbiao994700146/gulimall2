@@ -31,7 +31,7 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 server:
-  port: 13000
+  port: 24001
 logging:
   level:
     com.cb.gulimall: info
@@ -41,3 +41,23 @@ alibaba:
     secret-key: D8jGlxKBeEm71NGw4543PDnVNDzo7J
     oss:
       endpoint: oss-cn-shanghai.aliyuncs.com
+
+
+
+yop:
+  certs:
+    locator: file
+    yopPublicKey: MFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEyLcMQSe2kuXPy+uWskRL8C/5vwgRIpLo5VeFnnG2DIvE+fXt54Z0vSJ3VxjGFTcPHuqdWAWRBPNTkn7JDJosDQ==
+    isvPrivateKeyMap:
+      app_1: MIGTAgEAMBMGByqGSM49AgEGCCqBHM9VAYItBHkwdwIBAQQgo7bETCh9jmfZd8SR5hcVz/PzDSEfXZonf8ZbGvmJV/2gCgYIKoEcz1UBgi2hRANCAATItwxBJ7aS5c/L65ayREvwL/m/CBEikujlV4WecbYMi8T59e3nhnS9IndXGMYVNw8e6p1YBZEE81OSfskMmiwN
+      app_2: MIGTAgEAMBMGByqGSM49AgEGCCqBHM9VAYItBHkwdwIBAQQgo7bETCh9jmfZd8SR5hcVz/PzDSEfXZonf8ZbGvmJV/2gCgYIKoEcz1UBgi2hRANCAATItwxBJ7aS5c/L65ayREvwL/m/CBEikujlV4WecbYMi8T59e3nhnS9IndXGMYVNw8e6p1YBZEE81OSfskMmiwN
+    isvEncryptKeys:
+    - certType: SM4
+      value: OVQ0Y3JSU2gzZUd4c2hNQw==
+---
+spring:
+  profiles: production
+yop:
+  certs:
+    locator: composite
+    yopPublicKey: MFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEyLcMQSe2kuXPy+uWskRL8C/5vwgRIpLo5VeFnnG2DIvE+fXt54Z0vSJ3VxjGFTcPHuqdWAWRBPNTkn7JDJosDQ==

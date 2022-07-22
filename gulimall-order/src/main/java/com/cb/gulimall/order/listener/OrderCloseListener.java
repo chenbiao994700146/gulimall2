@@ -20,15 +20,15 @@ public class OrderCloseListener {
 
     @RabbitHandler
     public void listener(OrderEntity orderEntity, Channel channel, Message message) throws IOException {
-        System.out.println("收到过去的订单信息：准备关闭订单"+orderEntity.getOrderSn());
+        System.out.println("收到过去的订单信息：准备关闭订单" + orderEntity.getOrderSn());
 
-        try{
+        try {
             orderService.closeOrder(orderEntity);
 
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 
-        }catch (Exception e){
-            channel.basicReject(message.getMessageProperties().getDeliveryTag(),true);
+        } catch (Exception e) {
+            channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
         }
 
     }

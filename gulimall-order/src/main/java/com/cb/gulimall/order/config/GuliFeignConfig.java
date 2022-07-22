@@ -14,20 +14,20 @@ import javax.servlet.http.HttpServletRequest;
 public class GuliFeignConfig {
 
     @Bean("requestInterceptor")
-    public RequestInterceptor requestInterceptor(){
+    public RequestInterceptor requestInterceptor() {
         return new RequestInterceptor() {
             @Override
             public void apply(RequestTemplate template) {
                 //1、RequestContextHolder拿到刚进来的这个请求
-                System.out.println("requestInterceptor线程。。。。"+Thread.currentThread().getId());
+                System.out.println("requestInterceptor线程。。。。" + Thread.currentThread().getId());
 
-                ServletRequestAttributes requestAttributes= (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-                if(requestAttributes!=null){
+                ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+                if (requestAttributes != null) {
                     HttpServletRequest request = requestAttributes.getRequest();//老请求
                     //2、同步请求头数据，Cookie
-                    if(request!=null){
+                    if (request != null) {
                         String cookie = request.getHeader("Cookie");
-                        template.header("Cookie",cookie);
+                        template.header("Cookie", cookie);
 
                         System.out.println("feign远程之前先进行requestInterceptor.apply方法");
                     }

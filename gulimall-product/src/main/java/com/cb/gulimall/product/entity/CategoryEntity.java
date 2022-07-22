@@ -14,7 +14,7 @@ import lombok.Data;
 
 /**
  * ÉÌÆ·Èý¼¶·ÖÀà
- * 
+ *
  * @author chenbiao
  * @email chenbiao@gmail.com
  * @date 2021-09-22 20:55:28
@@ -22,48 +22,48 @@ import lombok.Data;
 @Data
 @TableName("pms_category")
 public class CategoryEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * ·ÖÀàid
-	 */
-	@TableId
-	private Long catId;
-	/**
-	 * ·ÖÀàÃû³Æ
-	 */
-	private String name;
-	/**
-	 * ¸¸·ÖÀàid
-	 */
-	private Long parentCid;
-	/**
-	 * ²ã¼¶
-	 */
-	private Integer catLevel;
-	/**
-	 * ÊÇ·ñÏÔÊ¾[0-²»ÏÔÊ¾£¬1ÏÔÊ¾]
-	 */
-	@TableLogic(value = "1",delval = "0")
-	private Integer showStatus;
-	/**
-	 * ÅÅÐò
-	 */
-	private Integer sort;
-	/**
-	 * Í¼±êµØÖ·
-	 */
-	private String icon;
-	/**
-	 * ¼ÆÁ¿µ¥Î»
-	 */
-	private String productUnit;
-	/**
-	 * ÉÌÆ·ÊýÁ¿
-	 */
-	private Integer productCount;
+    /**
+     * ·ÖÀàid
+     */
+    @TableId
+    private Long catId;
+    /**
+     * ·ÖÀàÃû³Æ
+     */
+    private String name;
+    /**
+     * ¸¸·ÖÀàid
+     */
+    private Long parentCid;
+    /**
+     * ²ã¼¶
+     */
+    private Integer catLevel;
+    /**
+     * ÊÇ·ñÏÔÊ¾[0-²»ÏÔÊ¾£¬1ÏÔÊ¾]
+     */
+    @TableLogic(value = "1", delval = "0")
+    private Integer showStatus;
+    /**
+     * ÅÅÐò
+     */
+    private Integer sort;
+    /**
+     * Í¼±êµØÖ·
+     */
+    private String icon;
+    /**
+     * ¼ÆÁ¿µ¥Î»
+     */
+    private String productUnit;
+    /**
+     * ÉÌÆ·ÊýÁ¿
+     */
+    private Integer productCount;
 
-	@JsonInclude(value = JsonInclude.Include.NON_EMPTY )
-	@TableField(exist = false)
-	private List<CategoryEntity> children;
+    @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
+    @TableField(exist = false)
+    private List<CategoryEntity> children;
 }

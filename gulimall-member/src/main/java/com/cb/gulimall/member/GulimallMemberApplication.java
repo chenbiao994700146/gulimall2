@@ -18,6 +18,6 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @SpringBootApplication
 public class GulimallMemberApplication {
     public static void main(String[] args) {
-            SpringApplication.run(GulimallMemberApplication.class, args);
-        }
+        SpringApplication.run(GulimallMemberApplication.class, args);
+    }
 }

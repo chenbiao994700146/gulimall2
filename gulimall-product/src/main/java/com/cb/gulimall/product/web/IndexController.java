@@ -29,28 +29,28 @@ public class IndexController {
 
     @Autowired
     StringRedisTemplate redisTemplate;
-    @GetMapping({"/","/index.html"})
-    public String indexPage(Model model){
-        //TODO 1.查出所有的1级分类
-       List<CategoryEntity> categoryEntitys= categoryService.getLevel1Categorys();
 
-       model.addAttribute("categorys",categoryEntitys);
+    @GetMapping({"/", "/index.html"})
+    public String indexPage(Model model) {
+        //TODO 1.查出所有的1级分类
+        List<CategoryEntity> categoryEntitys = categoryService.getLevel1Categorys();
+
+        model.addAttribute("categorys", categoryEntitys);
         return "index";
     }
-
 
 
     //"index/catalog.json"
     @ResponseBody
     @GetMapping("/index/catalog.json")
-    public Map<String, List<Catelog2Vo>> getCatalogJson(){
-        Map<String, List<Catelog2Vo>> map= categoryService.getCatalogJson();
-        return  map;
+    public Map<String, List<Catelog2Vo>> getCatalogJson() {
+        Map<String, List<Catelog2Vo>> map = categoryService.getCatalogJson();
+        return map;
     }
 
     @ResponseBody
     @GetMapping("/hello")
-    public  String hello(){
+    public String hello() {
         //1.获取锁
         RLock lock = redissonClient.getLock("my-lock");
 
@@ -68,14 +68,14 @@ public class IndexController {
 
         //最佳实战
         // lock.lock(10, TimeUnit.SECONDS);
-        try{
-            System.out.println("加锁成功，执行业务"+Thread.currentThread().getId());
+        try {
+            System.out.println("加锁成功，执行业务" + Thread.currentThread().getId());
             Thread.sleep(30000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             //3.解锁
-            System.out.println("释放锁"+Thread.currentThread().getId());
+            System.out.println("释放锁" + Thread.currentThread().getId());
             lock.unlock();
         }
 
@@ -92,8 +92,8 @@ public class IndexController {
     //只要有写的存在，都必须等待
     @ResponseBody
     @GetMapping("/write")
-    public String writeValue(){
-        String s =null;
+    public String writeValue() {
+        String s = null;
 
         RReadWriteLock lock = redissonClient.getReadWriteLock("rw-lock");
         RLock rLock = lock.writeLock();
@@ -101,15 +101,15 @@ public class IndexController {
             //1.改数据加写锁
 
             rLock.lock();
-            System.out.println("写锁加锁成功。。。。"+Thread.currentThread().getId());
+            System.out.println("写锁加锁成功。。。。" + Thread.currentThread().getId());
             s = UUID.randomUUID().toString();
             Thread.sleep(30000);
-            redisTemplate.opsForValue().set("cb",s);
+            redisTemplate.opsForValue().set("cb", s);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             rLock.unlock();
-            System.out.println("写锁释放成功。。。。"+Thread.currentThread().getId());
+            System.out.println("写锁释放成功。。。。" + Thread.currentThread().getId());
         }
         return s;
     }
@@ -117,40 +117,41 @@ public class IndexController {
 
     @ResponseBody
     @GetMapping("/read")
-    public String readValue(){
+    public String readValue() {
 
         RReadWriteLock lock = redissonClient.getReadWriteLock("rw-lock");
         RLock rLock = lock.readLock();
-        String s ="";
-        rLock.lock();;
-        try{
-            System.out.println("读锁加锁成功。。。。"+Thread.currentThread().getId());
+        String s = "";
+        rLock.lock();
+        ;
+        try {
+            System.out.println("读锁加锁成功。。。。" + Thread.currentThread().getId());
             try {
-                 s = redisTemplate.opsForValue().get("cb");
+                s = redisTemplate.opsForValue().get("cb");
                 Thread.sleep(30000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-        }finally {
+        } finally {
             rLock.unlock();
-            System.out.println("读锁释放成功。。。。"+Thread.currentThread().getId());
+            System.out.println("读锁释放成功。。。。" + Thread.currentThread().getId());
         }
         return s;
 
     }
 
-/**
- * 车库停车
- * 车位
- */
+    /**
+     * 车库停车
+     * 车位
+     */
     @GetMapping("/park")
     @ResponseBody
     public String park() throws InterruptedException {
         RSemaphore park = redissonClient.getSemaphore("park");
         //park.acquire();//获取一个信号，获取一个值,占一个车位
         boolean b = park.tryAcquire();
-        return "ok---->"+b;
+        return "ok---->" + b;
     }
 
 
@@ -180,10 +181,10 @@ public class IndexController {
 
     @ResponseBody
     @GetMapping("/gogo/{id}")
-    public String gogo(@PathVariable("id")Long id){
+    public String gogo(@PathVariable("id") Long id) {
         RCountDownLatch door = redissonClient.getCountDownLatch("door");
         door.countDown();//计数减一
-        return id+"放假了。。。。";
+        return id + "放假了。。。。";
     }
 
 

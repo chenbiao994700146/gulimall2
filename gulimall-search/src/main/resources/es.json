@@ -52,7 +52,8 @@
           "term": {
             "hasStock": "true"
           }
-        },{
+        },
+        {
           "range": {
             "skuPrice": {
               "gte": 1000,
@@ -73,7 +74,9 @@
   "from": 0,
   "size": 2,
   "highlight": {
-    "fields": {"skuTitle": {}},
+    "fields": {
+      "skuTitle": {}
+    },
     "pre_tags": "<b style='color:red'>",
     "post_tags": "</b>"
   },
@@ -90,7 +93,7 @@
             "size": 10
           }
         },
-        "brand_img_agg":{
+        "brand_img_agg": {
           "terms": {
             "field": "brandImg",
             "size": 10
@@ -98,7 +101,7 @@
         }
       }
     },
-    "catalog_agg":{
+    "catalog_agg": {
       "terms": {
         "field": "catalogId",
         "size": 10
@@ -112,7 +115,7 @@
         }
       }
     },
-    "attr_agg":{
+    "attr_agg": {
       "nested": {
         "path": "attrs"
       },
@@ -129,7 +132,7 @@
                 "size": 10
               }
             },
-            "attr_value_agg":{
+            "attr_value_agg": {
               "terms": {
                 "field": "attrs.attrValue",
                 "size": 10

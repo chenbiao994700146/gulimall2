@@ -15,43 +15,43 @@ import java.util.List;
 public class SeckillController {
 
     @Resource
-     SeckillService seckillService;
+    SeckillService seckillService;
 
 
     /**
      * 返回当前时间可以参与的秒杀商品信息
+     *
      * @return
      */
     @ResponseBody
     @GetMapping("/currentSeckillSkus")
-    public R getCurrentSeckillSkus(){
+    public R getCurrentSeckillSkus() {
 
-      List<SeckillSkuRedisTo> vos= seckillService.getCurrentSeckillSkus();
+        List<SeckillSkuRedisTo> vos = seckillService.getCurrentSeckillSkus();
 
         return R.ok().setData(vos);
     }
 
     @ResponseBody
     @GetMapping("/sku/seckill/{skuId}")
-    public R getSkuSeckillInfo(@PathVariable("skuId") Long skuId){
+    public R getSkuSeckillInfo(@PathVariable("skuId") Long skuId) {
         try {
             Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        SeckillSkuRedisTo to=seckillService.getSkuSeckillInfo(skuId);
+        SeckillSkuRedisTo to = seckillService.getSkuSeckillInfo(skuId);
 
         return R.ok().setData(to);
     }
 
 
-
     @GetMapping("/kill")
     public String secKill(@RequestParam("killId") String killId, @RequestParam("key") String key, @RequestParam("num") Integer num,
-                     Model model){
+                          Model model) {
 
-       String orderSn= seckillService.kill(killId,key,num);
-       model.addAttribute("orderSn",orderSn);
-        return  "success";
+        String orderSn = seckillService.kill(killId, key, num);
+        model.addAttribute("orderSn", orderSn);
+        return "success";
     }
 }

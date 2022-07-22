@@ -26,40 +26,40 @@ public class MyRabbitConfig {
 
     @Primary
     @Bean
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory){
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        this.rabbitTemplate=rabbitTemplate;
+        this.rabbitTemplate = rabbitTemplate;
         rabbitTemplate.setMessageConverter(messageConverter());
         initRabbitTemplate();
-        return  rabbitTemplate;
+        return rabbitTemplate;
     }
 
     @Bean
-    public MessageConverter messageConverter(){
+    public MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
     /**
      * 定制RabbitTemplate
      * 1、服务器收到消息就回调
-     *        1、spring.rabbitmq.publisher-confirms=true
-     *        2、设置确认回调
+     * 1、spring.rabbitmq.publisher-confirms=true
+     * 2、设置确认回调
      * 2、消息正确抵达队列进行回调
-     *       1、 spring.rabbitmq.publisher-returns=true
-     *           spring.rabbitmq.template.mandatory=true、
-     *       2、设置确认回调ReturnCallback
+     * 1、 spring.rabbitmq.publisher-returns=true
+     * spring.rabbitmq.template.mandatory=true、
+     * 2、设置确认回调ReturnCallback
      * 3、消费端确认（保证每个消息被正确消费，此时才可以broker删除这个消息）
-     *      1、默认是自动确认的，只要消息接受到，客户端会自动确认，服务器端就会移除这个消息
-     *          问题：
-     *              我们收到很多消息，自动回复给服务器ack,只有一个消息处理成功，宕机了。发送消息丢失；
-     *              消费者手动确认模式，，只要我们没有明确告诉MQ,货物被签收，没有ACK
-     *              手动确认。只要我们没有明确告诉MQ,货物被签收。没有ack,消息就一直是unacked状态。即使Consumer宕机。消息不会丢失，会重新变为Ready,下一次有新的Consumer连接进来就发给它
-     *      2、如何签收货物
-     *              channel.basicAck(deliveryTag,false); 签收 业务成功
-     *               channel.basicNack(deliveryTag,false,false);  拒签 业务失败
+     * 1、默认是自动确认的，只要消息接受到，客户端会自动确认，服务器端就会移除这个消息
+     * 问题：
+     * 我们收到很多消息，自动回复给服务器ack,只有一个消息处理成功，宕机了。发送消息丢失；
+     * 消费者手动确认模式，，只要我们没有明确告诉MQ,货物被签收，没有ACK
+     * 手动确认。只要我们没有明确告诉MQ,货物被签收。没有ack,消息就一直是unacked状态。即使Consumer宕机。消息不会丢失，会重新变为Ready,下一次有新的Consumer连接进来就发给它
+     * 2、如何签收货物
+     * channel.basicAck(deliveryTag,false); 签收 业务成功
+     * channel.basicNack(deliveryTag,false,false);  拒签 业务失败
      */
-   // @PostConstruct //MyRabbitConfig 对象创建完成以后，执行这个方法
-    public void initRabbitTemplate(){
+    // @PostConstruct //MyRabbitConfig 对象创建完成以后，执行这个方法
+    public void initRabbitTemplate() {
         //设置确认回调
         rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {
             /**
@@ -76,7 +76,7 @@ public class MyRabbitConfig {
                  */
                 //服务器收到了
                 //修改消息的状态
-                System.out.println("confirm...correlationData["+correlationData+"]==>ack["+ack+"]==>cause["+cause+"]");
+                System.out.println("confirm...correlationData[" + correlationData + "]==>ack[" + ack + "]==>cause[" + cause + "]");
             }
         });
 
@@ -92,7 +92,7 @@ public class MyRabbitConfig {
             @Override
             public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
                 //报错误了。修改数据当前消息状态->错误
-                System.out.println("Fail Message["+message+"]==>replyCode["+replyCode+"]====>replyText["+replyText+"]===>exchange["+exchange+"]==>routingKey["+routingKey+"]");
+                System.out.println("Fail Message[" + message + "]==>replyCode[" + replyCode + "]====>replyText[" + replyText + "]===>exchange[" + exchange + "]==>routingKey[" + routingKey + "]");
             }
         });
     }

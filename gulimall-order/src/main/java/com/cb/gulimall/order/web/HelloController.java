@@ -19,19 +19,19 @@ public class HelloController {
 
     @ResponseBody
     @GetMapping("/test/createOrder")
-    public String createOrderTest(){
+    public String createOrderTest() {
         //订单下单成功
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setOrderSn(UUID.randomUUID().toString());
         orderEntity.setModifyTime(new Date());
 
         //给MQ发送消息
-        rabbitTemplate.convertAndSend("order-event-exchange","order.create.order",orderEntity);
+        rabbitTemplate.convertAndSend("order-event-exchange", "order.create.order", orderEntity);
         return "ok";
     }
 
     @GetMapping("/{page}.html")
-    public String listPage(@PathVariable("page") String page){
+    public String listPage(@PathVariable("page") String page) {
 
         return page;
     }

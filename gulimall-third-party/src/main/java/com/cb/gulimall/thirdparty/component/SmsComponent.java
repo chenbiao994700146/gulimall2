@@ -16,15 +16,15 @@ public class SmsComponent {
 
     private String host;
     private String path;
-  //  private String content;
-   // private String phone_number;
+    //  private String content;
+    // private String phone_number;
     private String template_id;
     private String appcode;
 
-    public void sendSmsCode(String phone,String code){
+    public void sendSmsCode(String phone, String code) {
 
         String method = "POST";
-        String codes="code:"+code;
+        String codes = "code:" + code;
         Map<String, String> headers = new HashMap<String, String>();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);
@@ -34,7 +34,7 @@ public class SmsComponent {
         Map<String, String> bodys = new HashMap<String, String>();
         bodys.put("content", codes);
         bodys.put("phone_number", phone);
-        bodys.put("template_id",template_id);
+        bodys.put("template_id", template_id);
 
 
         try {
